@@ -3,12 +3,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ClienteService implements IClienteService {
+
+    private Map<Integer,Cliente> clientes;
+    public ClienteService() {
+        this.clientes = new HashMap<>();
+    }
+
     @Override
-    public void cadastrarCliente(Cliente cliente,String documento) {
-        if(isCpf(documento)) {
-            ClienteFisico clienteFisico = new ClienteFisico();
-            clienteFisico.setNome(cliente.getNome());
-        }
+    public void cadastrarClienteCPF(ClienteFisico cliente) {
+        
+
+    }
+    public void cadastrarClienteCNPJ(ClienteJuridico cliente){
 
     }
 

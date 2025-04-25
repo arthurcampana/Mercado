@@ -6,5 +6,6 @@ public interface IClienteService {
     Cliente consultarCliente(int id);
     Cliente[] listarCliente();
     Cliente[] listarClientePJ();
+    Cliente[] listarClientePF();
     void editarCliente(int id);
 }

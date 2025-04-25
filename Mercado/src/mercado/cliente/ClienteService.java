@@ -1,5 +1,7 @@
 package mercado.cliente;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClienteService implements IClienteService {
@@ -11,31 +13,70 @@ public class ClienteService implements IClienteService {
 
     @Override
     public void cadastrarClienteCPF(ClienteFisico cliente) {
-        
-
+        if (cliente != null && isCpf(cliente.getCpf())) {
+            clientes.put(cliente.getId(), cliente);
+        } else {
+            System.out.println("CPF invalido ou cliente nulo.");
+        }
     }
-    public void cadastrarClienteCNPJ(ClienteJuridico cliente){
 
+    @Override
+    public void cadastrarClienteCNPJ(ClienteJuridico cliente){
+        if (cliente != null && isCnpj(cliente.getCnpj())) {
+            clientes.put(cliente.getId(), cliente);
+        } else {
+            System.out.println("CNPJ invalido ou cliente nulo.");
+        }
     }
 
     @Override
     public Cliente consultarCliente(int id) {
+        if (clientes.containsKey(id)) {
+            return clientes.get(id);
+        }
         return null;
     }
 
     @Override
     public Cliente[] listarCliente() {
-        return new Cliente[0];
-    }
-
-    @Override
-    public Cliente[] listarClientePJ() {
-        return new Cliente[0];
+        Cliente[] clientes = new Cliente[this.clientes.size()];
+        return this.clientes.values().toArray(clientes);
     }
 
     @Override
     public void editarCliente(int id) {
+        if (clientes.containsKey(id)) {
+            Cliente cliente = clientes.get(id);
+        }else{
 
+        }
+
+    }
+
+    @Override
+    public Cliente[] listarClientePJ() {
+        List<Cliente> listaPJ = new ArrayList<>();
+
+        for (Cliente cliente : clientes.values()) {
+            if (cliente instanceof ClienteJuridico) {
+                listaPJ.add(cliente);
+            }
+        }
+
+
+        return listaPJ.toArray(new Cliente[0]);
+    }
+    @Override
+    public Cliente[] listarClientePF() {
+        List<Cliente> listaPF = new ArrayList<>();
+
+        for (Cliente cliente : clientes.values()) {
+            if (cliente instanceof ClienteFisico) {
+                listaPF.add(cliente);
+            }
+        }
+
+        return listaPF.toArray(new Cliente[0]);
     }
 
     private static boolean isCpf(String documento) {

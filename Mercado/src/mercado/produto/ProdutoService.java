@@ -2,6 +2,9 @@ package mercado.produto;
 
 
 
+import mercado.cliente.Categoria;
+import mercado.cliente.Cliente;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,8 +35,12 @@ public class ProdutoService implements IProdutoService {
     }
 
     @Override
-    public void editarProduto(int id) {
-
+    public void editarProduto(int id, String nome,double valor) {
+        if (produtos.containsKey(id)) {
+            Produto produto = produtos.get(id);
+            produto.setNome(nome);
+            produto.setValor(valor);
+        }
     }
 
 

@@ -2,8 +2,6 @@ package mercado.produto;
 
 
 
-import mercado.cliente.Cliente;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,10 +39,7 @@ public class ProdutoService implements IProdutoService {
 
     @Override
     public Produto[] listarProdutos() {
-        Produto[] lista = new Produto[produtos.size()];
-        for (int i = 0; i < produtos.size(); i++) {
-            lista[i] = produtos.get(i);
-        }
-        return lista;
+        Produto[] produtos = new Produto[this.produtos.size()];
+        return this.produtos.values().toArray(produtos);
     }
 }

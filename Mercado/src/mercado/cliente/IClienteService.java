@@ -7,5 +7,5 @@ public interface IClienteService {
     Cliente[] listarCliente();
     Cliente[] listarClientePJ();
     Cliente[] listarClientePF();
-    void editarCliente(int id);
+    void editarCliente(int id, String nome, int telefone, Categoria categoria);
 }

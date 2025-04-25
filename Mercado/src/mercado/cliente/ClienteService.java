@@ -44,12 +44,20 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public void editarCliente(int id) {
+    public void editarCliente(int id, String nome, int telefone, Categoria categoria) {
         if (clientes.containsKey(id)) {
-            Cliente cliente = clientes.get(id);
+            Cliente clientea = clientes.get(id);
+            clientea.setNome(nome);
+            clientea.setTelefone(telefone);
+            clientea.setCategoria(categoria);
+            System.out.println("Nome do cliente atualizado para: " + nome
+                                + "Telefone do cliente atualizado para" + telefone
+                                + "Categoria do cliente atualizada para" + categoria);
         }else{
-
+            System.out.println("Cliente nao encontrado");
         }
+
+
 
     }
 

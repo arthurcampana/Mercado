@@ -5,6 +5,7 @@ import mercado.cliente.*;
 import java.util.Arrays;
 
 import static mercado.cliente.Categoria.DESCONTO1;
+import static mercado.cliente.Categoria.DESCONTO2;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,6 +26,11 @@ public class Main {
         System.out.println(clienteService.consultarCliente(2));
 
         System.out.println(Arrays.toString(clienteService.listarCliente()));
+
+        clienteService.editarCliente(1, "asdfs", 51234, DESCONTO2);
+        System.out.println(clienteService.consultarCliente(1));
+
+        System.out.println(Arrays.toString(clienteService.listarClientePF()));
 
     }
 }

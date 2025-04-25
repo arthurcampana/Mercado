@@ -43,23 +43,46 @@ public class ClienteService implements IClienteService {
         return this.clientes.values().toArray(clientes);
     }
 
-    @Override
-    public void editarCliente(int id, String nome, int telefone, Categoria categoria) {
-        if (clientes.containsKey(id)) {
-            Cliente clientea = clientes.get(id);
-            clientea.setNome(nome);
-            clientea.setTelefone(telefone);
-            clientea.setCategoria(categoria);
-            System.out.println("Nome do cliente atualizado para: " + nome
-                                + "Telefone do cliente atualizado para" + telefone
-                                + "Categoria do cliente atualizada para" + categoria);
-        }else{
-            System.out.println("Cliente nao encontrado");
-        }
+//    @Override
+//    public void editarCliente(int id, String nome, int telefone, Categoria categoria) {
+//        if (clientes.containsKey(id)) {
+//            Cliente clientea = clientes.get(id);
+//            clientea.setNome(nome);
+//            clientea.setTelefone(telefone);
+//            clientea.setCategoria(categoria);
+//            System.out.println("Nome do cliente atualizado para: " + nome
+//                                + "Telefone do cliente atualizado para" + telefone
+//                                + "Categoria do cliente atualizada para" + categoria);
+//        }else{
+//            System.out.println("Cliente nao encontrado");
+//        }
+//
+//
+//
+//    }
+//@Override
+//public void editarCliente(Cliente cliente) {
+//    int id = cliente.getId();
+//
+//    if (clientes.containsKey(id)) {
+//        Cliente clientea = clientes.get(id);
+//        clientea.setNome(cliente.getNome());
+//        clientea.setTelefone(cliente.getTelefone());
+//        clientea.setCategoria(cliente.getCategoria());
+//
+//        System.out.println("Cliente atualizado:");
+//        System.out.println("Nome: " + cliente.getNome());
+//        System.out.println("Telefone: " + cliente.getTelefone());
+//        System.out.println("Categoria: " + cliente.getCategoria());
+//    } else {
+//        System.out.println("Cliente não encontrado.");
+//    }
+//}
+@Override
+public void editarCliente(Cliente cliente) {
+    System.out.println("atualizo po");
+}
 
-
-
-    }
 
     @Override
     public Cliente[] listarClientePJ() {

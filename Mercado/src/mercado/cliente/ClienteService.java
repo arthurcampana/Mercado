@@ -80,7 +80,8 @@ public class ClienteService implements IClienteService {
 //}
 @Override
 public void editarCliente(Cliente cliente) {
-    System.out.println("atualizo po");
+
+        System.out.println("atualizo po");
 }
 
 

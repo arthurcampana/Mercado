@@ -27,8 +27,8 @@ public class Main {
 
         System.out.println(Arrays.toString(clienteService.listarCliente()));
 
-        clientePf.setCpf();
-        clienteService.editarCliente(1, "asdfs", 51234, DESCONTO2);
+
+        clienteService.editarCliente(clientePf);
         System.out.println(clienteService.consultarCliente(1));
 
         System.out.println(Arrays.toString(clienteService.listarClientePF()));

@@ -6,6 +6,13 @@ public class ItemVenda {
     private int quantidade;
     private double valor;
 
+
+    public ItemVenda(double valor, int quantidade, String nome) {
+        this.valor = valor;
+        this.quantidade = quantidade;
+        this.nome = nome;
+    }
+
     public int getId() {
         return id;
     }

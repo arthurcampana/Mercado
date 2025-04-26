@@ -44,4 +44,14 @@ public class ItemVenda {
     public void setValor(double valor) {
         this.valor = valor;
     }
+
+    @Override
+    public String toString() {
+        return "ItemVenda{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", quantidade=" + quantidade +
+                ", valor=" + valor +
+                '}';
+    }
 }

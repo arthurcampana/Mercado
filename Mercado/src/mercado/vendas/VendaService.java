@@ -15,13 +15,17 @@ public class VendaService {
 
     public void criarVenda(Cliente cliente, Map<Produto, Integer> produtos, int id){
         ItemVenda[] itensVenda = new ItemVenda[produtos.size()];
-
-        Venda venda = new Venda(1,itemVenda[] ,cliente );
         int i = 0;
-        for(Map.Entry<Produto, Integer> entry : produtos.entrySet()){
+        for (Map.Entry<Produto, Integer> entry : produtos.entrySet()) {
+            Produto produto = entry.getKey();
+            int quantidade = entry.getValue();
 
+            ItemVenda item = new ItemVenda(produto.getValor(), quantidade, produto.getNome());
+
+            itensVenda[i++] = item;
         }
-
+        Venda venda = new Venda(itensVenda, cliente);
+        System.out.println(venda);
 
 
     }

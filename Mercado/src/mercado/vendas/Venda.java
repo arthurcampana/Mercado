@@ -3,6 +3,7 @@ package mercado.vendas;
 import mercado.cliente.Cliente;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 public class Venda {
     private int id;
@@ -11,8 +12,8 @@ public class Venda {
     private double desconto;
     private ItemVenda[] itens;
 
-    public Venda(int id, ItemVenda[] itens, Cliente cliente) {
-        this.id = id;
+    public Venda( ItemVenda[] itens, Cliente cliente) {
+
         this.itens = itens;
 
         this.cliente = cliente;
@@ -57,5 +58,16 @@ public class Venda {
 
     public void setDatahora(LocalDateTime datahora) {
         this.datahora = datahora;
+    }
+
+    @Override
+    public String toString() {
+        return "Venda{" +
+                "id=" + id +
+                ", datahora=" + datahora +
+                ", cliente=" + cliente +
+                ", desconto=" + desconto +
+                ", itens=" + Arrays.toString(itens) +
+                '}';
     }
 }

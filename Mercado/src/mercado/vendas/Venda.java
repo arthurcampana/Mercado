@@ -12,11 +12,12 @@ public class Venda {
     private double desconto;
     private ItemVenda[] itens;
 
-    public Venda( ItemVenda[] itens, Cliente cliente) {
+    public Venda( ItemVenda[] itens, Cliente cliente, LocalDateTime datahora, Double desconto) {
 
         this.itens = itens;
-
         this.cliente = cliente;
+        this.datahora = datahora;
+        this.desconto = desconto;
 
     }
 

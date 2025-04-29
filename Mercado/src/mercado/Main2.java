@@ -27,7 +27,7 @@ public class Main2 {
 
         VendaService vendaService = new VendaService();
 
-        vendaService.criarVenda(clientePf, produtosComprados, 8);
+        vendaService.criarVenda(null, produtosComprados, 8);
     }
 
 }

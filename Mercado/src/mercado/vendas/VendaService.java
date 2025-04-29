@@ -34,7 +34,9 @@ public class VendaService {
             valorTotal *= (1-df.GetDesconto(cliente));
         }
         LocalDateTime datahora = LocalDateTime.now();
-        Venda venda = new Venda(itensVenda, cliente, datahora, df.GetDesconto(cliente));
+        double desconto;
+        desconto = df.GetDesconto(cliente);
+        Venda venda = new Venda(itensVenda, cliente, datahora, desconto);
         System.out.println(venda + " - Valor total: R$" + String.format("%.2f", valorTotal));
 
     }

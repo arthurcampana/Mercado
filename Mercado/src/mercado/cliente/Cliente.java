@@ -38,6 +38,7 @@ public abstract class Cliente {
     }
 
     public Categoria getCategoria() {
+
         return categoria;
     }
 

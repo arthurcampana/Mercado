@@ -46,4 +46,14 @@ public class Produto {
 
         return valor;
     }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", valor=" + valor +
+                ", estoque=" + estoque +
+                '}';
+    }
 }

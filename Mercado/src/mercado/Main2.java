@@ -2,6 +2,7 @@ package mercado;
 
 import mercado.cliente.ClienteFisico;
 import mercado.produto.Produto;
+import mercado.produto.ProdutoService;
 import mercado.vendas.VendaService;
 
 import java.util.HashMap;
@@ -16,10 +17,19 @@ public class Main2 {
         Produto feijao = new Produto(2, "Feijão", 7.49, 80);
         Produto macarrao = new Produto(3, "Macarrão", 4.29, 60);
 
+        ProdutoService produtoService = new ProdutoService();
+
+        produtoService.cadastrarProduto(feijao);
+        produtoService.cadastrarProduto(arroz);
+        produtoService.cadastrarProduto(macarrao);
+
+
+
         Map<Produto, Integer> produtosComprados = new HashMap<>();
-        produtosComprados.put(arroz, 2);
-        produtosComprados.put(feijao, 1);
-        produtosComprados.put(macarrao, 3);
+        produtosComprados.put(produtoService.consultarProduto(1), 2);
+        produtosComprados.put(produtoService.consultarProduto(2), 1);
+        produtosComprados.put(produtoService.consultarProduto(3), 3);
+
 
 
         ClienteFisico clientePf = new ClienteFisico(DESCONTO1, 141, "ASD", 2);
@@ -27,7 +37,9 @@ public class Main2 {
 
         VendaService vendaService = new VendaService();
 
-        vendaService.criarVenda(null, produtosComprados, 8);
+        vendaService.criarVenda(clientePf, produtosComprados, 8);
+
+        System.out.println(produtoService.consultarProduto(1));;
     }
 
 }

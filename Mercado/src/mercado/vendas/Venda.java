@@ -11,13 +11,15 @@ public class Venda {
     private Cliente cliente;
     private double desconto;
     private ItemVenda[] itens;
+    private double valorTotal;
 
-    public Venda( ItemVenda[] itens, Cliente cliente, LocalDateTime datahora, Double desconto) {
+    public Venda( ItemVenda[] itens, Cliente cliente, LocalDateTime datahora, Double desconto, double valorTotal) {
 
         this.itens = itens;
         this.cliente = cliente;
         this.datahora = datahora;
         this.desconto = desconto;
+        this.valorTotal = valorTotal;
 
     }
 
@@ -63,12 +65,13 @@ public class Venda {
 
     @Override
     public String toString() {
-        return "Venda{" +
-                "id=" + id +
-                ", datahora=" + datahora +
-                ", cliente=" + cliente +
-                ", desconto=" + desconto +
-                ", itens=" + Arrays.toString(itens) +
+        return "Venda {\n" +
+                "  id = " + id + ",\n" +
+                "  datahora = " + datahora + ",\n" +
+                "  cliente = " + cliente + ",\n" +
+                "  desconto = " + desconto + ",\n" +
+                "  itens = " + Arrays.toString(itens) + ",\n" +
+                "  valor total = " + valorTotal + "\n" +
                 '}';
     }
 }

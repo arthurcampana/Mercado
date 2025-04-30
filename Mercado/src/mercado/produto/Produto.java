@@ -21,6 +21,14 @@ public class Produto {
         this.estoque = estoque;
     }
 
+    public void saidaEstoque(int estoque) {
+        this.estoque -= estoque;
+    }
+
+    public void entradaEstoque(int estoque) {
+        this.estoque += estoque;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

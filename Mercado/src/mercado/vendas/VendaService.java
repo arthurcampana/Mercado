@@ -4,8 +4,6 @@ import mercado.cliente.Cliente;
 import mercado.produto.Produto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class VendaService {
@@ -13,8 +11,8 @@ public class VendaService {
 
     private double aplicarDesconto(double valorTotal, Cliente cliente) {
         if (cliente != null) {
-            descontoFidelidade df = new descontoFidelidade();
-            return valorTotal * (1 - df.GetDesconto(cliente));
+            DescontoFidelidade df = new DescontoFidelidade();
+            return valorTotal * (1 - df.getDesconto(cliente));
         }
         return valorTotal;
     }
@@ -28,7 +26,7 @@ public class VendaService {
         for (Map.Entry<Produto, Integer> entry : produtos.entrySet()) {
             Produto produto = entry.getKey();
             int quantidade = entry.getValue();
-            produto.setEstoque(produto.getEstoque() - quantidade);
+            produto.saidaEstoque(quantidade);
             System.out.println(produto.getEstoque());
             ItemVenda item = new ItemVenda(produto.getValor(), quantidade, produto.getNome());
 
@@ -37,11 +35,11 @@ public class VendaService {
         }
         valorTotal = aplicarDesconto(valorTotal, cliente);
 
-        descontoFidelidade df = new descontoFidelidade();
+        DescontoFidelidade df = new DescontoFidelidade();
 
         LocalDateTime datahora = LocalDateTime.now();
 
-        double desconto = df.GetDesconto(cliente);
+        double desconto = df.getDesconto(cliente);
 
         Venda venda = new Venda(itensVenda, cliente, datahora, desconto, valorTotal);
         System.out.println(venda + " - Valor total: R$" + String.format("%.2f", valorTotal));

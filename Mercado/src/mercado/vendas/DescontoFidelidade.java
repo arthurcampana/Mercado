@@ -3,10 +3,10 @@ package mercado.vendas;
 import mercado.cliente.Categoria;
 import mercado.cliente.Cliente;
 
-public class descontoFidelidade {
+public class DescontoFidelidade {
 
 
-    public double GetDesconto(Cliente cliente){
+    public double getDesconto(Cliente cliente){
         if(cliente == null){
             return 0.0;
         }

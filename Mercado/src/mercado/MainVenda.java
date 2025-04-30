@@ -10,7 +10,7 @@ import java.util.Map;
 
 import static mercado.cliente.Categoria.DESCONTO1;
 
-public class Main2 {
+public class MainVenda {
     public static void main(String[] args) {
 
         Produto arroz = new Produto(1, "Arroz", 5.99, 100);
@@ -39,7 +39,11 @@ public class Main2 {
 
         vendaService.criarVenda(clientePf, produtosComprados, 8);
 
-        System.out.println(produtoService.consultarProduto(1));;
+        System.out.println(produtoService.consultarProduto(1));
+        System.out.println(produtoService.consultarProduto(2));
+        System.out.println(produtoService.consultarProduto(3));
+
+
     }
 
 }

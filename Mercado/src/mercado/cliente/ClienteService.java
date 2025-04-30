@@ -60,29 +60,29 @@ public class ClienteService implements IClienteService {
 //
 //
 //    }
-//@Override
-//public void editarCliente(Cliente cliente) {
-//    int id = cliente.getId();
-//
-//    if (clientes.containsKey(id)) {
-//        Cliente clientea = clientes.get(id);
-//        clientea.setNome(cliente.getNome());
-//        clientea.setTelefone(cliente.getTelefone());
-//        clientea.setCategoria(cliente.getCategoria());
-//
-//        System.out.println("Cliente atualizado:");
-//        System.out.println("Nome: " + cliente.getNome());
-//        System.out.println("Telefone: " + cliente.getTelefone());
-//        System.out.println("Categoria: " + cliente.getCategoria());
-//    } else {
-//        System.out.println("Cliente não encontrado.");
-//    }
-//}
 @Override
 public void editarCliente(Cliente cliente) {
+    int id = cliente.getId();
 
-        System.out.println("atualizo po");
+    if (clientes.containsKey(id)) {
+        Cliente clienteEditado = clientes.get(id);
+        clienteEditado.setNome(cliente.getNome());
+        clienteEditado.setTelefone(cliente.getTelefone());
+        clienteEditado.setCategoria(cliente.getCategoria());
+
+        System.out.println("Cliente atualizado:");
+        System.out.println("Nome: " + cliente.getNome());
+        System.out.println("Telefone: " + cliente.getTelefone());
+        System.out.println("Categoria: " + cliente.getCategoria());
+    } else {
+        System.out.println("Cliente não encontrado.");
+    }
 }
+//@Override
+//public void editarCliente(Cliente cliente) {
+//
+//        System.out.println("atualizo po");
+//}
 
 
     @Override

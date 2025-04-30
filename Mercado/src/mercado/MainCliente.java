@@ -5,9 +5,8 @@ import mercado.cliente.*;
 import java.util.Arrays;
 
 import static mercado.cliente.Categoria.DESCONTO1;
-import static mercado.cliente.Categoria.DESCONTO2;
 
-public class Main {
+public class MainCliente {
     public static void main(String[] args) {
         System.out.println("a");
 

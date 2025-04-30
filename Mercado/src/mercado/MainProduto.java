@@ -5,7 +5,7 @@ import mercado.produto.ProdutoService;
 
 import java.util.Arrays;
 
-public class Main3 {
+public class MainProduto {
     public static void main(String[] args) {
         Produto arroz = new Produto(1, "Arroz", 5.99, 100);
         Produto feijao = new Produto(2, "Feijão", 7.49, 80);

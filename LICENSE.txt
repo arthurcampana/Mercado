@@ -1,0 +1,8 @@
+/*
+This work is licensed under the Creative Commons CC0 1.0 Universal License.
+
+To view a copy of this license, visit http://creativecommons.org/publicdomain/zero/1.0/
+or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.
+*/

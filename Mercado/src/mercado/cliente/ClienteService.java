@@ -13,21 +13,29 @@ public class ClienteService implements IClienteService {
 
     @Override
     public void cadastrarClienteCPF(ClienteFisico cliente) {
-        if (cliente != null && isCpf(cliente.getCpf())) {
-            clientes.put(cliente.getId(), cliente);
+        if (cliente == null) {
+            System.out.println("Cliente físico nulo");
+        } else if (!isCpf(cliente.getCpf())) {
+            System.out.println("CPF invalido");
         } else {
-            System.out.println("CPF invalido ou cliente nulo.");
+            clientes.put(cliente.getId(), cliente);
+            System.out.println("Cliente físico cadastrado com sucesso: " + cliente);
         }
     }
 
     @Override
-    public void cadastrarClienteCNPJ(ClienteJuridico cliente){
-        if (cliente != null && isCnpj(cliente.getCnpj())) {
-            clientes.put(cliente.getId(), cliente);
+    public void cadastrarClienteCNPJ(ClienteJuridico cliente) {
+        if (cliente == null) {
+            System.out.println("Cliente juridico nulo");
+        } else if (!isCnpj(cliente.getCnpj())) {
+            System.out.println("CNPJ invalido");
         } else {
-            System.out.println("CNPJ invalido ou cliente nulo.");
+            clientes.put(cliente.getId(), cliente);
+            System.out.println("Cliente juridico cadastrado com sucesso: " + cliente);
         }
     }
+
+    
 
     @Override
     public Cliente consultarCliente(int id) {

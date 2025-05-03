@@ -1,10 +1,6 @@
 package mercado.produto;
 
 
-
-import mercado.cliente.Categoria;
-import mercado.cliente.Cliente;
-
 import java.util.HashMap;
 import java.util.Map;
 

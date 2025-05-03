@@ -27,10 +27,6 @@ public class Venda {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public ItemVenda[] getItens() {
         return itens;
     }

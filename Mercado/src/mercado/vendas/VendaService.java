@@ -19,6 +19,12 @@ public class VendaService {
 
 
     public void criarVenda(Cliente cliente, Map<Produto, Integer> produtos, int id) {
+        
+        if (produtos == null || produtos.isEmpty()) {
+            System.out.println("Não há produtos na venda.");
+            return;
+        }
+
         ItemVenda[] itensVenda = new ItemVenda[produtos.size()];
         double valorTotal = 0.0;
         int i = 0;
@@ -26,8 +32,18 @@ public class VendaService {
         for (Map.Entry<Produto, Integer> entry : produtos.entrySet()) {
             Produto produto = entry.getKey();
             int quantidade = entry.getValue();
+           
+            if (quantidade <= 0) {
+                System.out.println("Quantidade invalida para o produto " + produto.getNome());
+                return;
+            }
+            if (produto.getEstoque() < quantidade) {
+                System.out.println("Estoque insuficiente para o produto: " + produto.getNome());
+                return;
+            }
+           
             produto.saidaEstoque(quantidade);
-            System.out.println(produto.getEstoque());
+            
             ItemVenda item = new ItemVenda(produto.getValor(), quantidade, produto.getNome());
 
             valorTotal += produto.getValor() * quantidade;

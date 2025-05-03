@@ -3,8 +3,9 @@ package mercado.cliente;
 public class ClienteJuridico extends Cliente {
     private String cnpj;
 
-    public ClienteJuridico(Categoria categoria, int telefone, String nome, int id) {
+    public ClienteJuridico(Categoria categoria, int telefone, String nome, int id, String cnpj) {
         super(categoria, telefone, nome, id);
+        this.cnpj = cnpj;
     }
 
     public String getCnpj() {

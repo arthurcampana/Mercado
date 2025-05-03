@@ -3,8 +3,9 @@ package mercado.cliente;
 public class ClienteFisico extends Cliente{
     private String cpf;
 
-    public ClienteFisico(Categoria categoria, int telefone, String nome, int id) {
+    public ClienteFisico(Categoria categoria, int telefone, String nome, int id, String cpf) {
         super(categoria, telefone, nome, id);
+        this.cpf = cpf;
     }
 
     public String getCpf() {

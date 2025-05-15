@@ -13,7 +13,7 @@ public class MainCliente {
         IClienteService clienteService = new ClienteService();
 
         //Cria cliente PJ
-        ClienteJuridico clientePJ = new ClienteJuridico(DESCONTO1, 141, "ASD", 1, "12345678900019");
+        ClienteJuridico clientePJ = new ClienteJuridico(DESCONTO1, -1, null, -1, "12345678900019");
 
         //Cria cliente PF
         ClienteFisico clientePf = new ClienteFisico(DESCONTO1, 141, "ASD", 2, "12345678910");

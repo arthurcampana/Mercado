@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static mercado.cliente.Categoria.DESCONTO1;
+import static mercado.cliente.Categoria.DESCONTO2;
 
 public class MainVenda {
     public static void main(String[] args) {
@@ -27,17 +28,17 @@ public class MainVenda {
 
         //Carrinho de compras: produto, quantidade
         Map<Produto, Integer> produtosComprados = new HashMap<>();
-        produtosComprados.put(produtoService.consultarProduto(1), 2);
+        produtosComprados.put(produtoService.consultarProduto(1), 1);
         produtosComprados.put(produtoService.consultarProduto(2), 1); 
         produtosComprados.put(produtoService.consultarProduto(3), 3); 
 
         //Cliente da venda
-        ClienteFisico clientePf = new ClienteFisico(DESCONTO1, 141, "ASD", 2, "12345678910");
+        ClienteFisico clientePf = new ClienteFisico(null, 141, "ASD", 2, "12345678910");
 
         VendaService vendaService = new VendaService();
 
         //Venda com os produtos e o cliente
-        vendaService.criarVenda(clientePf, produtosComprados, 8);
+        vendaService.criarVenda(null, produtosComprados, 8);
 
         //Exibe os produtos com estoque atualizado dps da venda
         System.out.println(produtoService.consultarProduto(1)); 

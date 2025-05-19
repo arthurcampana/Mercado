@@ -5,4 +5,5 @@ public interface IProdutoService {
     Produto consultarProduto(int id);
     void editarProduto(int id,String nome,double valor);
     Produto[] listarProdutos();
+
 }

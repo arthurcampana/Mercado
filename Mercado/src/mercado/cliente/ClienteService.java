@@ -1,4 +1,10 @@
 package mercado.cliente;
+import conexao.Conexao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -6,32 +12,72 @@ import java.util.Map;
 
 public class ClienteService implements IClienteService {
 
-    private Map<Integer,Cliente> clientes;
-    public ClienteService() {
-        this.clientes = new HashMap<>();
+
+    private Connection conn;
+
+    public void ManipulacaoBD() {
+        conn = Conexao.getConnection();
     }
 
-    @Override
-    public void cadastrarClienteCPF(ClienteFisico cliente) {
-        if (cliente == null) {
-            System.out.println("Cliente físico nulo");
-        } else if (!isCpf(cliente.getCpf())) {
-            System.out.println("CPF invalido");
+    public void cadastrarCliente(Cliente cliente, String documento) {
+
+
+        if (isCpf(documento)) {
+            cadastrarClienteCPF(cliente, documento);
+        } else if (isCnpj(documento)) {
+            cadastrarClienteCNPJ(cliente);
         } else {
-            clientes.put(cliente.getId(), cliente);
-            System.out.println("Cliente físico cadastrado com sucesso: " + cliente);
+            System.out.println("Documento inválido: deve ter 11 (CPF) ou 14 (CNPJ) dígitos.");
         }
     }
 
     @Override
-    public void cadastrarClienteCNPJ(ClienteJuridico cliente) {
-        if (cliente == null) {
-            System.out.println("Cliente juridico nulo");
-        } else if (!isCnpj(cliente.getCnpj())) {
-            System.out.println("CNPJ invalido");
-        } else {
-            clientes.put(cliente.getId(), cliente);
-            System.out.println("Cliente juridico cadastrado com sucesso: " + cliente);
+    public void cadastrarClienteCPF(Cliente cliente , String documento) {
+        String sqlCliente = "INSERT INTO cliente (nome, telefone) VALUES (?, ?)";
+        String sqlPF = "INSERT INTO cliente_pf (id_cliente, cpf) VALUES (?, ?)";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sqlCliente)) {
+            stmt.setString(1, cliente.getNome());
+            stmt.setDouble(2, cliente.getTelefone());
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+        } catch (SQLException e) {
+            System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
+        }
+
+        try (PreparedStatement stmt = conn.prepareStatement(sqlPF)) {
+            stmt.setString(1, cliente.getNome());
+            stmt.setString(2, documento);
+            stmt.setString(3, cliente.getCategoria().name());
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+        } catch (SQLException e) {
+            System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void cadastrarClienteCNPJ(Cliente cliente , String documento) {
+        String sqlCliente = "INSERT INTO cliente (nome, telefone, categoria) VALUES (?, ?, ?)";
+        String sqlPJ = "INSERT INTO cliente_pj (id_cliente, cnpj) VALUES (?, ?)";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sqlCliente)) {
+            stmt.setString(1, cliente.getNome());
+            stmt.setDouble(2, cliente.getTelefone());
+            stmt.setString(3, cliente.getCategoria().name());
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+        } catch (SQLException e) {
+            System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
+        }
+
+        try (PreparedStatement stmt = conn.prepareStatement(sqlPJ)) {
+            stmt.setString(1, cliente.getNome());
+            stmt.setString(2, documento);
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+        } catch (SQLException e) {
+            System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
         }
     }
 

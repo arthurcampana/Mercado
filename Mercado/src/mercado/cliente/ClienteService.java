@@ -23,16 +23,16 @@ public class ClienteService implements IClienteService {
 
 
         if (isCpf(documento)) {
-            cadastrarClienteCPF(cliente, documento);
+            cadastrarClientePF(cliente, documento);
         } else if (isCnpj(documento)) {
-            cadastrarClienteCNPJ(cliente);
+            cadastrarClientePJ(cliente, documento);
         } else {
             System.out.println("Documento inválido: deve ter 11 (CPF) ou 14 (CNPJ) dígitos.");
         }
     }
 
     @Override
-    public void cadastrarClienteCPF(Cliente cliente , String documento) {
+    public void cadastrarClientePF(Cliente cliente , String documento) {
         String sqlCliente = "INSERT INTO cliente (nome, telefone) VALUES (?, ?)";
         String sqlPF = "INSERT INTO cliente_pf (id_cliente, cpf) VALUES (?, ?)";
 
@@ -57,7 +57,7 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public void cadastrarClienteCNPJ(Cliente cliente , String documento) {
+    public void cadastrarClientePJ(Cliente cliente , String documento) {
         String sqlCliente = "INSERT INTO cliente (nome, telefone, categoria) VALUES (?, ?, ?)";
         String sqlPJ = "INSERT INTO cliente_pj (id_cliente, cnpj) VALUES (?, ?)";
 

@@ -1,5 +1,6 @@
 
 import conexao.ConexaoComPropriedades;
+import conexao.Tabelas;
 import mercado.produto.Produto;
 import mercado.produto.ProdutoService;
 
@@ -26,5 +27,12 @@ public class Main {
         prd.consultarProduto(1);
         prd.excluirProduto(2);
         prd.atualizar(1, "arroz", 5.33, 10);
+
+        Tabelas tbl = new Tabelas();
+        tbl.criarTabelaCliente();
+        tbl.criarTabelaCliente_pf();
+        tbl.criarTabelaCliente_pj();
+        tbl.criarTabelaVenda();
+        tbl.criarTabelaItemVenda();
     }
 }

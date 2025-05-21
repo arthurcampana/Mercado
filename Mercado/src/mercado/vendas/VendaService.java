@@ -4,22 +4,53 @@ import conexao.Conexao;
 import mercado.cliente.Cliente;
 import mercado.produto.Produto;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
+import java.sql.*;
 import java.util.Map;
 
 public class VendaService {
 
 
-    private double aplicarDesconto(double valorTotal, Cliente cliente) {
-        if (cliente != null) {
-            DescontoFidelidade df = new DescontoFidelidade();
-            return valorTotal * (1 - df.getDesconto(cliente));
-        }
-        return valorTotal;
+    private Connection conn;
+
+    public VendaService() throws SQLException {
     }
+
+    public void ManipulacaoBD() {
+        conn = Conexao.getConnection();
+    }
+
+    //private double aplicarDesconto(double valorTotal, Cliente cliente) {
+      //  if (cliente != null) {
+      //      DescontoFidelidade df = new DescontoFidelidade();
+      //      return valorTotal * (1 - df.getDesconto(cliente));
+       // }
+      //  return valorTotal;
+      // }
+
+    String pegarIDcliente = "SELECT id from cliente WHERE id_cliente = ?";
+
+
+    //VERIFICAÇÃO SE TEM O ESTOQUE DO ITEM
+    public void criarVenda(String documento, Map<Produto, Integer> produtos) {
+        // (BUSCADOR)
+
+
+
+        
+        String estoquesql = "SELECT estoque from produto WHERE id_produto = ?";
+        try (PreparedStatement ps = conn.prepareStatement(estoquesql)) {
+            int idproduto = 1;
+            ps.setInt(1, idproduto);
+            ResultSet rs = ps.executeQuery();
+
+
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao cadastrar cliente PF: " + e.getMessage());
+        }
+    }
+
+
 
 
     public void criarVenda(Cliente cliente, Map<Produto, Integer> produtos, int id) {

@@ -1,10 +1,14 @@
 
 import conexao.ConexaoComPropriedades;
 import conexao.Tabelas;
+import mercado.cliente.ClienteJuridico;
+import mercado.cliente.ClienteService;
 import mercado.produto.Produto;
 import mercado.produto.ProdutoService;
 
 import java.sql.Connection;
+
+import static mercado.cliente.Categoria.DESCONTO1;
 
 public class Main {
 
@@ -34,5 +38,11 @@ public class Main {
         tbl.criarTabelaCliente_pj();
         tbl.criarTabelaVenda();
         tbl.criarTabelaItemVenda();
+
+        ClienteService clt = new ClienteService();
+        clt.ManipulacaoBD();
+        ClienteJuridico clientePJ = new ClienteJuridico(DESCONTO1, -1, "aaa", -1, "12345678900019");
+        clt.cadastrarClientePJ(clientePJ, clientePJ.getCnpj());
+
     }
 }

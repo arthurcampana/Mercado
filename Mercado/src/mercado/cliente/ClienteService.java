@@ -1,6 +1,7 @@
 package mercado.cliente;
 import conexao.Conexao;
 
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ClienteService implements IClienteService {
+public class ClienteService {
 
 
     private Connection conn;
@@ -31,8 +32,8 @@ public class ClienteService implements IClienteService {
         }
     }
 
-    @Override
-    public void cadastrarClientePF(Cliente cliente , String documento) {
+   // @Override
+    public void cadastrarClientePF(Cliente cliente, String documento) {
         String sqlCliente = "INSERT INTO cliente (nome, telefone) VALUES (?, ?)";
         String sqlPF = "INSERT INTO cliente_pf (id_cliente, cpf) VALUES (?, ?)";
 
@@ -56,46 +57,53 @@ public class ClienteService implements IClienteService {
         }
     }
 
-    @Override
-    public void cadastrarClientePJ(Cliente cliente , String documento) {
-        String sqlCliente = "INSERT INTO cliente (nome, telefone, categoria) VALUES (?, ?, ?)";
-        String sqlPJ = "INSERT INTO cliente_pj (id_cliente, cnpj) VALUES (?, ?)";
+   // @Override
+   public void cadastrarClientePJ(Cliente cliente, String documento) {
+       String sqlCliente = "INSERT INTO cliente (nome, telefone, categoria) VALUES (?, ?, ?)";
+       String sqlPJ = "INSERT INTO cliente_pj (id_cliente, cnpj) VALUES (?, ?)";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sqlCliente)) {
-            stmt.setString(1, cliente.getNome());
-            stmt.setDouble(2, cliente.getTelefone());
-            stmt.setString(3, cliente.getCategoria().name());
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-        } catch (SQLException e) {
-            System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
-        }
+       try (
+               PreparedStatement stmtCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS)
+       ) {
+           // Inserir na tabela cliente
+           stmtCliente.setString(1, cliente.getNome());
+           stmtCliente.setString(2, String.valueOf(cliente.getTelefone()));
+           stmtCliente.setString(3, cliente.getCategoria().name());
+           stmtCliente.executeUpdate();
 
-        try (PreparedStatement stmt = conn.prepareStatement(sqlPJ)) {
-            stmt.setString(1, cliente.getNome());
-            stmt.setString(2, documento);
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-        } catch (SQLException e) {
-            System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
-        }
-    }
+           // Recuperar o ID gerado automaticamente
+           ResultSet rs = stmtCliente.getGeneratedKeys();
+           if (rs.next()) {
+               int idCliente = rs.getInt(1);
+
+               // Inserir na tabela cliente_pj com o ID gerado
+               try (PreparedStatement stmtPJ = conn.prepareStatement(sqlPJ)) {
+                   stmtPJ.setInt(1, idCliente);
+                   stmtPJ.setString(2, documento);
+                   stmtPJ.executeUpdate();
+                   System.out.println("Cliente PJ cadastrado com sucesso!");
+               }
+           }
+       } catch (SQLException e) {
+           System.err.println("Erro ao cadastrar cliente PJ: " + e.getMessage());
+       }
+   }
 
     
 
-    @Override
-    public Cliente consultarCliente(int id) {
-        if (clientes.containsKey(id)) {
-            return clientes.get(id);
-        }
-        return null;
-    }
-
-    @Override
-    public Cliente[] listarCliente() {
-        Cliente[] clientes = new Cliente[this.clientes.size()];
-        return this.clientes.values().toArray(clientes);
-    }
+//    @Override
+//    public Cliente consultarCliente(int id) {
+//        if (clientes.containsKey(id)) {
+//            return clientes.get(id);
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    public Cliente[] listarCliente() {
+//        Cliente[] clientes = new Cliente[this.clientes.size()];
+//        return this.clientes.values().toArray(clientes);
+//    }
 
 //    @Override
 //    public void editarCliente(int id, String nome, int telefone, Categoria categoria) {
@@ -114,24 +122,24 @@ public class ClienteService implements IClienteService {
 //
 //
 //    }
-@Override
-public void editarCliente(Cliente cliente) {
-    int id = cliente.getId();
-
-    if (clientes.containsKey(id)) {
-        Cliente clienteEditado = clientes.get(id);
-        clienteEditado.setNome(cliente.getNome());
-        clienteEditado.setTelefone(cliente.getTelefone());
-        clienteEditado.setCategoria(cliente.getCategoria());
-
-        System.out.println("Cliente atualizado:");
-        System.out.println("Nome: " + cliente.getNome());
-        System.out.println("Telefone: " + cliente.getTelefone());
-        System.out.println("Categoria: " + cliente.getCategoria());
-    } else {
-        System.out.println("Cliente não encontrado.");
-    }
-}
+//@Override
+//public void editarCliente(Cliente cliente) {
+//    int id = cliente.getId();
+//
+//    if (clientes.containsKey(id)) {
+//        Cliente clienteEditado = clientes.get(id);
+//        clienteEditado.setNome(cliente.getNome());
+//        clienteEditado.setTelefone(cliente.getTelefone());
+//        clienteEditado.setCategoria(cliente.getCategoria());
+//
+//        System.out.println("Cliente atualizado:");
+//        System.out.println("Nome: " + cliente.getNome());
+//        System.out.println("Telefone: " + cliente.getTelefone());
+//        System.out.println("Categoria: " + cliente.getCategoria());
+//    } else {
+//        System.out.println("Cliente não encontrado.");
+//    }
+//}
 //@Override
 //public void editarCliente(Cliente cliente) {
 //
@@ -139,31 +147,31 @@ public void editarCliente(Cliente cliente) {
 //}
 
 
-    @Override
-    public Cliente[] listarClientePJ() {
-        List<Cliente> listaPJ = new ArrayList<>();
-
-        for (Cliente cliente : clientes.values()) {
-            if (cliente instanceof ClienteJuridico) {
-                listaPJ.add(cliente);
-            }
-        }
-
-
-        return listaPJ.toArray(new Cliente[0]);
-    }
-    @Override
-    public Cliente[] listarClientePF() {
-        List<Cliente> listaPF = new ArrayList<>();
-
-        for (Cliente cliente : clientes.values()) {
-            if (cliente instanceof ClienteFisico) {
-                listaPF.add(cliente);
-            }
-        }
-
-        return listaPF.toArray(new Cliente[0]);
-    }
+//    @Override
+//    public Cliente[] listarClientePJ() {
+//        List<Cliente> listaPJ = new ArrayList<>();
+//
+//        for (Cliente cliente : clientes.values()) {
+//            if (cliente instanceof ClienteJuridico) {
+//                listaPJ.add(cliente);
+//            }
+//        }
+//
+//
+//        return listaPJ.toArray(new Cliente[0]);
+//    }
+//    @Override
+//    public Cliente[] listarClientePF() {
+//        List<Cliente> listaPF = new ArrayList<>();
+//
+//        for (Cliente cliente : clientes.values()) {
+//            if (cliente instanceof ClienteFisico) {
+//                listaPF.add(cliente);
+//            }
+//        }
+//
+//        return listaPF.toArray(new Cliente[0]);
+//    }
 
     private static boolean isCpf(String documento) {
         return documento != null && documento.length() == 11;

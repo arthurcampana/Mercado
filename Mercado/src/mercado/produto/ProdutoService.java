@@ -50,8 +50,9 @@ public class ProdutoService {
                         String nome = rs.getString("nome");
                         double valor = rs.getDouble("valor");
                         int estoque = rs.getInt("estoque");
-
+                        Produto produto = new Produto(nome, valor, estoque);
                         System.out.println("ID: " + id + " Nome: " + nome + " Valor: " + valor + " Estoque: " + estoque );
+                        return produto;
                     }
                 }
             } catch (SQLException e) {

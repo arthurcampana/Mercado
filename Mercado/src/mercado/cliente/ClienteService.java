@@ -17,14 +17,41 @@ public class ClienteService {
     }
 
     public void cadastrarCliente(Cliente cliente) {
-
-
         if (isCpf(cliente.getDocumento())) {
             cadastrarClientePF(cliente);
         } else if (isCnpj(cliente.getDocumento())) {
             cadastrarClientePJ(cliente);
         } else {
             System.out.println("Documento inválido: deve ter 11 (CPF) ou 14 (CNPJ) dígitos.");
+        }
+    }
+
+    public void consultarCliente(Cliente cliente) {
+        if (isCpf(cliente.getDocumento())) {
+            cadastrarClientePF(cliente);
+        } else if (isCnpj(cliente.getDocumento())) {
+            cadastrarClientePJ(cliente);
+        } else {
+            System.out.println("Documento inválido: deve ter 11 (CPF) ou 14 (CNPJ) dígitos.");
+        }
+    }
+
+    public void consultarClientePF(String documento) {
+        String sqlCliente = "SELECT id_cliente, nome, telefone, categoria FROM cliente JOIN cliente_pf ON id_cliente WHERE cpf = ?";
+        try(PreparedStatement stmt = conn.prepareStatement(sqlCliente)){
+            stmt.setString(1,documento);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                Cliente cliente = new Cliente();
+
+
+                );
+
+            }
+
+        }  catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

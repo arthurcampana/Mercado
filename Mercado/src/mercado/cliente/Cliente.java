@@ -1,17 +1,18 @@
 package mercado.cliente;
 
-public abstract class Cliente {
+public class Cliente {
     private int id;
     private String nome;
     private int telefone;
     private Categoria categoria;
 
-    public Cliente(Categoria categoria, int telefone, String nome, int id) {
-        this.categoria = categoria;
-        this.telefone = telefone;
-        this.nome = nome;
-        this.id = id;
-    }
+
+//    //public Cliente(Categoria categoria, int telefone, String nome, int id) {
+//        this.categoria = categoria;
+//        this.telefone = telefone;
+//        this.nome = nome;
+//        this.id = id;
+//    }
 
     public int getId() {
         return id;

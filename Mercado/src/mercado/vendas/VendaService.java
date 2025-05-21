@@ -36,7 +36,7 @@ public class VendaService {
 
 
 
-        
+
         String estoquesql = "SELECT estoque from produto WHERE id_produto = ?";
         try (PreparedStatement ps = conn.prepareStatement(estoquesql)) {
             int idproduto = 1;

@@ -17,6 +17,11 @@ public class ClienteFisico extends Cliente{
     }
 
     @Override
+    public String getDocumento(){
+        return this.cpf;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + ", CPF: '" + cpf + "'";
     }

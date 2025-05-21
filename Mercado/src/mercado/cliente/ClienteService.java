@@ -6,10 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ClienteService {
 
@@ -20,66 +16,65 @@ public class ClienteService {
         conn = Conexao.getConnection();
     }
 
-    public void cadastrarCliente(Cliente cliente, String documento) {
+    public void cadastrarCliente(Cliente cliente) {
 
 
-        if (isCpf(documento)) {
-            cadastrarClientePF(cliente, documento);
-        } else if (isCnpj(documento)) {
-            cadastrarClientePJ(cliente, documento);
+        if (isCpf(cliente.getDocumento())) {
+            cadastrarClientePF(cliente);
+        } else if (isCnpj(cliente.getDocumento())) {
+            cadastrarClientePJ(cliente);
         } else {
             System.out.println("Documento inválido: deve ter 11 (CPF) ou 14 (CNPJ) dígitos.");
         }
     }
 
    // @Override
-    public void cadastrarClientePF(Cliente cliente, String documento) {
-        String sqlCliente = "INSERT INTO cliente (nome, telefone) VALUES (?, ?)";
-        String sqlPF = "INSERT INTO cliente_pf (id_cliente, cpf) VALUES (?, ?)";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sqlCliente)) {
-            stmt.setString(1, cliente.getNome());
-            stmt.setDouble(2, cliente.getTelefone());
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-        } catch (SQLException e) {
-            System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
-        }
-
-        try (PreparedStatement stmt = conn.prepareStatement(sqlPF)) {
-            stmt.setString(1, cliente.getNome());
-            stmt.setString(2, documento);
-            stmt.setString(3, cliente.getCategoria().name());
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-        } catch (SQLException e) {
-            System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
-        }
-    }
-
-   // @Override
-   public void cadastrarClientePJ(Cliente cliente, String documento) {
+   public void cadastrarClientePF(Cliente cliente) {
        String sqlCliente = "INSERT INTO cliente (nome, telefone, categoria) VALUES (?, ?, ?)";
-       String sqlPJ = "INSERT INTO cliente_pj (id_cliente, cnpj) VALUES (?, ?)";
+       String sqlPF = "INSERT INTO cliente_pf (id_cliente, cpf) VALUES (?, ?)";
 
-       try (
-               PreparedStatement stmtCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS)
-       ) {
-           // Inserir na tabela cliente
+       try (PreparedStatement stmtCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS))
+       {
            stmtCliente.setString(1, cliente.getNome());
            stmtCliente.setString(2, String.valueOf(cliente.getTelefone()));
            stmtCliente.setString(3, cliente.getCategoria().name());
            stmtCliente.executeUpdate();
 
-           // Recuperar o ID gerado automaticamente
            ResultSet rs = stmtCliente.getGeneratedKeys();
            if (rs.next()) {
                int idCliente = rs.getInt(1);
 
-               // Inserir na tabela cliente_pj com o ID gerado
+               try (PreparedStatement stmtPF = conn.prepareStatement(sqlPF)) {
+                   stmtPF.setInt(1, idCliente);
+                   stmtPF.setString(2, cliente.getDocumento());
+                   stmtPF.executeUpdate();
+                   System.out.println("Cliente PF cadastrado com sucesso!");
+               }
+           }
+       } catch (SQLException e) {
+           System.err.println("Erro ao cadastrar cliente PF: " + e.getMessage());
+       }
+   }
+
+   // @Override
+   public void cadastrarClientePJ(Cliente cliente) {
+       String sqlCliente = "INSERT INTO cliente (nome, telefone, categoria) VALUES (?, ?, ?)";
+       String sqlPJ = "INSERT INTO cliente_pj (id_cliente, cnpj) VALUES (?, ?)";
+
+       try (PreparedStatement stmtCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS))
+       {
+           stmtCliente.setString(1, cliente.getNome());
+           stmtCliente.setString(2, String.valueOf(cliente.getTelefone()));
+           stmtCliente.setString(3, cliente.getCategoria().name());
+           stmtCliente.executeUpdate();
+
+           ResultSet rs = stmtCliente.getGeneratedKeys();
+           if (rs.next()) {
+               int idCliente = rs.getInt(1);
+
                try (PreparedStatement stmtPJ = conn.prepareStatement(sqlPJ)) {
                    stmtPJ.setInt(1, idCliente);
-                   stmtPJ.setString(2, documento);
+                   stmtPJ.setString(2, cliente.getDocumento());
                    stmtPJ.executeUpdate();
                    System.out.println("Cliente PJ cadastrado com sucesso!");
                }

@@ -33,6 +33,10 @@ public abstract class Cliente {
         this.telefone = telefone;
     }
 
+    public String getDocumento(){
+      return null;
+    };
+
     public Categoria getCategoria() {
 
         return categoria;

@@ -1,6 +1,7 @@
 
 import conexao.ConexaoComPropriedades;
 import conexao.Tabelas;
+import mercado.cliente.ClienteFisico;
 import mercado.cliente.ClienteJuridico;
 import mercado.cliente.ClienteService;
 import mercado.produto.Produto;
@@ -42,7 +43,9 @@ public class Main {
         ClienteService clt = new ClienteService();
         clt.ManipulacaoBD();
         ClienteJuridico clientePJ = new ClienteJuridico(DESCONTO1, -1, "aaa", -1, "12345678900019");
-        clt.cadastrarClientePJ(clientePJ, clientePJ.getCnpj());
+        ClienteFisico clientePf = new ClienteFisico(DESCONTO1, 141, "ASD", 2, "12345678910");
+        clt.cadastrarCliente(clientePJ);
+        clt.cadastrarCliente(clientePf);
 
     }
 }

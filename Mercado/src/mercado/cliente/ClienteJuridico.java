@@ -17,6 +17,11 @@ public class ClienteJuridico extends Cliente {
     }
 
     @Override
+    public String getDocumento(){
+        return this.cnpj;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + ", CNPJ: '" + cnpj + "'";
     }

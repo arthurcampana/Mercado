@@ -7,12 +7,12 @@ public class Cliente {
     private Categoria categoria;
 
 
-//    //public Cliente(Categoria categoria, int telefone, String nome, int id) {
-//        this.categoria = categoria;
-//        this.telefone = telefone;
-//        this.nome = nome;
-//        this.id = id;
-//    }
+    public Cliente(Categoria categoria, int telefone, String nome, int id) {
+        this.categoria = categoria;
+        this.telefone = telefone;
+        this.nome = nome;
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -55,5 +55,9 @@ public class Cliente {
                 ", telefone=" + telefone +
                 ", categoria=" + categoria +
                 '}';
+    }
+
+    public void setId(int idCliente) {
+        this.id = idCliente;
     }
 }

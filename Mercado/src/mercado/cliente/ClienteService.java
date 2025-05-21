@@ -26,33 +26,60 @@ public class ClienteService {
         }
     }
 
-    public void consultarCliente(Cliente cliente) {
-        if (isCpf(cliente.getDocumento())) {
-            cadastrarClientePF(cliente);
-        } else if (isCnpj(cliente.getDocumento())) {
-            cadastrarClientePJ(cliente);
+    public Cliente consultarCliente(String documento) {
+        if (isCpf(documento)) {
+            return consultarClientePF(documento);
+        } else if (isCnpj(documento)) {
+            return consultarClientePJ(documento);
         } else {
             System.out.println("Documento inválido: deve ter 11 (CPF) ou 14 (CNPJ) dígitos.");
         }
+        return null;
+
     }
 
-    public void consultarClientePF(String documento) {
-        String sqlCliente = "SELECT id_cliente, nome, telefone, categoria FROM cliente JOIN cliente_pf ON id_cliente WHERE cpf = ?";
-        try(PreparedStatement stmt = conn.prepareStatement(sqlCliente)){
-            stmt.setString(1,documento);
+
+
+    public Cliente consultarClientePF(String documento) {
+        String sqlCliente = "SELECT c.id_cliente, c.nome, c.telefone, c.categoria " +
+                "FROM cliente c " +
+                "JOIN cliente_pf pf ON c.id_cliente = pf.id_cliente " +
+                "WHERE pf.cpf = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sqlCliente)) {
+            stmt.setString(1, documento);
             ResultSet rs = stmt.executeQuery();
 
-            if(rs.next()) {
-                Cliente cliente = new Cliente();
-
-
-                );
-
+            if (rs.next()) {
+                Categoria categoria = Categoria.valueOf(rs.getString("categoria"));
+                Cliente cliente = new Cliente(categoria, rs.getInt("telefone"), rs.getString("nome"),rs.getInt("id_cliente"));
+                return cliente;
             }
 
-        }  catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    public Cliente consultarClientePJ(String documento) {
+        String sqlCliente = "SELECT c.id_cliente, c.nome, c.telefone, c.categoria " +
+                "FROM cliente c " +
+                "JOIN cliente_pj pf ON c.id_cliente = pj.id_cliente " +
+                "WHERE pj.cnpj = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sqlCliente)) {
+            stmt.setString(1, documento);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Categoria categoria = Categoria.valueOf(rs.getString("categoria"));
+                Cliente cliente = new Cliente(categoria, rs.getInt("telefone"), rs.getString("nome"),rs.getInt("id_cliente"));
+                return cliente;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
    // @Override
@@ -63,7 +90,7 @@ public class ClienteService {
        try (PreparedStatement stmtCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS))
        {
            stmtCliente.setString(1, cliente.getNome());
-           stmtCliente.setString(2, String.valueOf(cliente.getTelefone()));
+           stmtCliente.setInt(2, cliente.getTelefone());
            stmtCliente.setString(3, cliente.getCategoria().name());
            stmtCliente.executeUpdate();
 
@@ -91,7 +118,7 @@ public class ClienteService {
        try (PreparedStatement stmtCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS))
        {
            stmtCliente.setString(1, cliente.getNome());
-           stmtCliente.setString(2, String.valueOf(cliente.getTelefone()));
+           stmtCliente.setInt(2, cliente.getTelefone());
            stmtCliente.setString(3, cliente.getCategoria().name());
            stmtCliente.executeUpdate();
 

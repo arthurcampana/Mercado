@@ -11,7 +11,7 @@ public class Tabelas {
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS cliente (" +
                     "id_cliente INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                     "nome VARCHAR(100) NOT NULL, " +
-                    "telefone VARCHAR(100), " +
+                    "telefone INT, " +
                     "categoria VARCHAR(20));");
             System.out.println("Tabela CLIENTE criada com sucesso!");
         } catch (SQLException e) {
@@ -34,7 +34,7 @@ public class Tabelas {
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS cliente_pj (" +
                     "id_cliente INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                    "cpnj VARCHAR(14));");
+                    "cnpj VARCHAR(14));");
             System.out.println("Tabela CLIENTE_PJ criada com sucesso!");
         } catch (SQLException e) {
             System.err.println("Erro ao criar tabela CLIENTE: " + e.getMessage());

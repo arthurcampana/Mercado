@@ -2,9 +2,11 @@ package mercado.vendas;
 
 import conexao.Conexao;
 import mercado.cliente.Cliente;
+import mercado.cliente.ClienteService;
 import mercado.produto.Produto;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class VendaService {
@@ -19,41 +21,63 @@ public class VendaService {
         conn = Conexao.getConnection();
     }
 
-    //private double aplicarDesconto(double valorTotal, Cliente cliente) {
-      //  if (cliente != null) {
-      //      DescontoFidelidade df = new DescontoFidelidade();
-      //      return valorTotal * (1 - df.getDesconto(cliente));
-       // }
-      //  return valorTotal;
-      // }
+    private double aplicarDesconto(double valorTotal, Cliente cliente) {
+        if (cliente != null) {
+            DescontoFidelidade df = new DescontoFidelidade();
+            return valorTotal * (1 - df.getDesconto(cliente));
+        }
+        return valorTotal;
+       }
 
-    String pegarIDcliente = "SELECT id from cliente WHERE id_cliente = ?";
-
-
-    //VERIFICAÇÃO SE TEM O ESTOQUE DO ITEM
     public void criarVenda(String documento, Map<Produto, Integer> produtos) {
-        // (BUSCADOR)
 
+        ClienteService clienteService = new ClienteService();
+        DescontoFidelidade df = new DescontoFidelidade();
+        Cliente cli = clienteService.consultarCliente(documento);
+        double desconto = df.getDesconto(cli);
+        LocalDateTime datahora = LocalDateTime.now();
 
+        String inserirVenda = "INSERT INTO venda (fk_id_cliente,data_hora,desconto,valor_total) VALUES (?, ?, ?, ?);";
+        try (PreparedStatement stmt = conn.prepareStatement(inserirVenda, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, cli.getId());
+            stmt.setTimestamp(2, Timestamp.valueOf(datahora));
+            stmt.setDouble(3, desconto);
+            stmt.setDouble(4,0.0);
+            stmt.executeUpdate();
 
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                int idVenda = rs.getInt(1);
 
-        String estoquesql = "SELECT estoque from produto WHERE id_produto = ?";
-        try (PreparedStatement ps = conn.prepareStatement(estoquesql)) {
-            int idproduto = 1;
-            ps.setInt(1, idproduto);
-            ResultSet rs = ps.executeQuery();
-
-
-
+            }
         } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar cliente PF: " + e.getMessage());
+            System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
+        }
+
+
+
+        for (Map.Entry<Produto, Integer> entry : produtos.entrySet()) {
+            Produto produto = entry.getKey();
+            int quantidade = entry.getValue();
+
+
+        //VERIFICADOR SE O ITEM TEM ESTOQUE PARA SER COMPRADO
+        if (produto.getEstoque() < quantidade) {
+                System.out.println("Estoque insuficiente para o produto: " + produto.getNome());
+                return;
+           }
+
+
+
+
+
         }
     }
 
 
 
 
-    public void criarVenda(Cliente cliente, Map<Produto, Integer> produtos, int id) {
+    //public void criarVenda(Cliente cliente, Map<Produto, Integer> produtos, int id) {
         
 //        if (produtos == null || produtos.isEmpty()) {
 //            System.out.println("Não há produtos na venda.");
@@ -97,4 +121,4 @@ public class VendaService {
 
     }
 
-}
+

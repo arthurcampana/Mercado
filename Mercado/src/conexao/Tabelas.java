@@ -50,6 +50,7 @@ public class Tabelas {
                     "fk_id_cliente INT, " +
                     "data_hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
                     "desconto decimal(10,2) NOT NULL, " +
+                    "valor_total double NOT NULL, " +
                     "FOREIGN KEY (fk_id_cliente) REFERENCES cliente(id_cliente));");
             System.out.println("Tabela criada com sucesso!");
         } catch (SQLException e) {

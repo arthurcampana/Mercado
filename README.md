@@ -1,6 +1,6 @@
 # Mercado_poo_senai_s2
 
-
+https://media.tenor.com/Fi3EqKfhbmEAAAAe/sonic-rizz.png
 
 ## Getting started
 

@@ -64,7 +64,7 @@ public class ClienteService {
     public Cliente consultarClientePJ(String documento) {
         String sqlCliente = "SELECT c.id_cliente, c.nome, c.telefone, c.categoria " +
                 "FROM cliente c " +
-                "JOIN cliente_pj pf ON c.id_cliente = pj.id_cliente " +
+                "JOIN cliente_pj pj ON c.id_cliente = pj.id_cliente " +
                 "WHERE pj.cnpj = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sqlCliente)) {
             stmt.setString(1, documento);

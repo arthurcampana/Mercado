@@ -29,14 +29,14 @@ public class VendaService {
         return valorTotal;
        }
 
-    public void criarVenda(String documento, Map<Produto, Integer> produtos) {
+    public void criarVenda(String documento, Map<Produto, Integer> produtos) throws SQLException {
 
         ClienteService clienteService = new ClienteService();
         DescontoFidelidade df = new DescontoFidelidade();
         Cliente cli = clienteService.consultarCliente(documento);
         double desconto = df.getDesconto(cli);
         LocalDateTime datahora = LocalDateTime.now();
-
+        int idVenda = 0;
         String inserirVenda = "INSERT INTO venda (fk_id_cliente,data_hora,desconto,valor_total) VALUES (?, ?, ?, ?);";
         try (PreparedStatement stmt = conn.prepareStatement(inserirVenda, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, cli.getId());
@@ -46,32 +46,24 @@ public class VendaService {
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
+
             if (rs.next()) {
-                int idVenda = rs.getInt(1);
+                idVenda = rs.getInt(1);
 
             }
         } catch (SQLException e) {
             System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
         }
 
-
-
-        for (Map.Entry<Produto, Integer> entry : produtos.entrySet()) {
-            Produto produto = entry.getKey();
-            int quantidade = entry.getValue();
-
-
-        //VERIFICADOR SE O ITEM TEM ESTOQUE PARA SER COMPRADO
-        if (produto.getEstoque() < quantidade) {
-                System.out.println("Estoque insuficiente para o produto: " + produto.getNome());
-                return;
-           }
+        double valortotal = criarItemVenda(idVenda,produtos);
+        String sqlvalortotal = "UPDATE venda SET valor_total = ? WHERE id_venda = ?";
+        PreparedStatement stmtvalortotal = conn.prepareStatement(sqlvalortotal);
+        stmtvalortotal.setDouble(1,valortotal);
+        stmtvalortotal.setInt(2,idVenda);
+        stmtvalortotal.execute();
 
 
 
-
-
-        }
     }
 
 
@@ -152,6 +144,25 @@ public class VendaService {
 //        Venda venda = new Venda(itensVenda, cliente, datahora, desconto, valorTotal);
 //        System.out.println(venda + " - Valor total: R$" + String.format("%.2f", valorTotal));
 
+
+
+
+    // for (Map.Entry<Produto, Integer> entry : produtos.entrySet()) {
+    //            Produto produto = entry.getKey();
+    //            int quantidade = entry.getValue();
+    //
+    //
+    //        //VERIFICADOR SE O ITEM TEM ESTOQUE PARA SER COMPRADO
+    //        if (produto.getEstoque() < quantidade) {
+    //                System.out.println("Estoque insuficiente para o produto: " + produto.getNome());
+    //                return;
+    //           }
+    //
+    //
+    //
+    //
+    //
+    //        }
     }
 
 

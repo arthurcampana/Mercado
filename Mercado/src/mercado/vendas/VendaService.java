@@ -75,7 +75,40 @@ public class VendaService {
     }
 
 
+    public double criarItemVenda(int idVenda, Map<Produto, Integer> produtos) throws SQLException {
 
+        double valorTotal = 0.0;
+
+        String sqlItem = "INSERT INTO item_venda (id_venda, nome, quantidade, valor) VALUES (?, ?, ?, ?)";
+        PreparedStatement stmtItem = conn.prepareStatement(sqlItem);
+
+        String sqlEstoque = "UPDATE produto SET estoque = estoque - ? WHERE id_produto = ?";
+        PreparedStatement stmtEstoque = conn.prepareStatement(sqlEstoque);
+
+        for (Map.Entry<Produto, Integer> entry : produtos.entrySet()) {
+
+            Produto produto = entry.getKey();
+            int quantidade = entry.getValue();
+
+            stmtItem.setInt(1, idVenda);
+            stmtItem.setString(2, produto.getNome());
+            stmtItem.setInt(3, quantidade);
+            stmtItem.setDouble(4, produto.getValor());
+            stmtItem.addBatch();
+
+            stmtEstoque.setInt(1, quantidade);
+            stmtEstoque.setInt(2, produto.getId());
+            stmtEstoque.addBatch();
+
+            valorTotal += produto.getValor() * quantidade;
+
+        }
+            stmtItem.executeBatch();
+            stmtEstoque.executeBatch();
+
+        return valorTotal;
+
+    }
 
     //public void criarVenda(Cliente cliente, Map<Produto, Integer> produtos, int id) {
         

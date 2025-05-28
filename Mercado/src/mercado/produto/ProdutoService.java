@@ -42,7 +42,7 @@ public class ProdutoService {
 //        }else{
 //            return null;
 //        }
-            String sql = "SELECT nome, valor, estoque FROM produto WHERE id_produto = ?";
+            String sql = "SELECT id_produto, nome, valor, estoque FROM produto WHERE id_produto = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, id);
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -50,7 +50,8 @@ public class ProdutoService {
                         String nome = rs.getString("nome");
                         double valor = rs.getDouble("valor");
                         int estoque = rs.getInt("estoque");
-                        Produto produto = new Produto(nome, valor, estoque);
+                        int idprd = rs.getInt("id_produto");
+                        Produto produto = new Produto(idprd, nome, valor, estoque);
                         System.out.println("ID: " + id + " Nome: " + nome + " Valor: " + valor + " Estoque: " + estoque );
                         return produto;
                     }

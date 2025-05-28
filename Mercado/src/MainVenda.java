@@ -20,7 +20,7 @@ public class MainVenda {
         produtosComprados.put(prd.consultarProduto(3), 3);
 
         System.out.println(produtosComprados);
-        vendaService.criarVenda("12345678900019", produtosComprados);
+        vendaService.criarVenda("12345678300019", produtosComprados);
 
 
     }

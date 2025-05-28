@@ -36,7 +36,7 @@ public class VendaService {
         Cliente cli = clienteService.consultarCliente(documento);
         double desconto = df.getDesconto(cli);
         LocalDateTime datahora = LocalDateTime.now();
-        int idVenda = 0;
+
         String inserirVenda = "INSERT INTO venda (fk_id_cliente,data_hora,desconto,valor_total) VALUES (?, ?, ?, ?);";
         try (PreparedStatement stmt = conn.prepareStatement(inserirVenda, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, cli.getId());
@@ -46,21 +46,24 @@ public class VendaService {
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
-
+            int idVenda = 0;
             if (rs.next()) {
                 idVenda = rs.getInt(1);
 
             }
+
+            double valortotal = criarItemVenda(idVenda,produtos);
+            valortotal = aplicarDesconto(valortotal, cli);
+            String sqlvalortotal = "UPDATE venda SET valor_total = ? WHERE id_venda = ?";
+            PreparedStatement stmtvalortotal = conn.prepareStatement(sqlvalortotal);
+            stmtvalortotal.setDouble(1,valortotal);
+            stmtvalortotal.setInt(2,idVenda);
+            stmtvalortotal.execute();
         } catch (SQLException e) {
             System.err.println("Nao foi possivel realizar a insercao: " + e.getMessage());
         }
 
-        double valortotal = criarItemVenda(idVenda,produtos);
-        String sqlvalortotal = "UPDATE venda SET valor_total = ? WHERE id_venda = ?";
-        PreparedStatement stmtvalortotal = conn.prepareStatement(sqlvalortotal);
-        stmtvalortotal.setDouble(1,valortotal);
-        stmtvalortotal.setInt(2,idVenda);
-        stmtvalortotal.execute();
+
 
 
 
@@ -71,7 +74,7 @@ public class VendaService {
 
         double valorTotal = 0.0;
 
-        String sqlItem = "INSERT INTO item_venda (id_venda, nome, quantidade, valor) VALUES (?, ?, ?, ?)";
+        String sqlItem = "INSERT INTO item_venda (fk_id_venda, nome, quantidade, valor) VALUES (?, ?, ?, ?)";
         PreparedStatement stmtItem = conn.prepareStatement(sqlItem);
 
         String sqlEstoque = "UPDATE produto SET estoque = estoque - ? WHERE id_produto = ?";

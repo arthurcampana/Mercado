@@ -11,7 +11,9 @@ public class ClienteService {
 
 
     private Connection conn;
-
+    public ClienteService() {
+        this.conn = Conexao.getConnection();
+    }
     public void ManipulacaoBD() {
         conn = Conexao.getConnection();
     }

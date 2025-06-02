@@ -23,7 +23,7 @@ public class Escritor{
 
 
     public void Relatoriovenda(String nomeArquivo) throws SQLException {
-        String sqlString = "SELECT * FROM venda WHERE DATE(data_hora) = CURDATE();";
+        String sqlString = "SELECT id_venda, valor_total, data_hora FROM venda WHERE DATE(data_hora) = CURDATE();";
         PreparedStatement stmtRelatorio = conn.prepareStatement(sqlString);
         ResultSet rs = stmtRelatorio.executeQuery();
 

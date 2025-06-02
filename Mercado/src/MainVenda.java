@@ -16,11 +16,10 @@ public class MainVenda {
 
         Map<Produto, Integer> produtosComprados = new HashMap<>();
         produtosComprados.put(prd.consultarProduto(1), 1);
-        produtosComprados.put(prd.consultarProduto(4), 1);
-        produtosComprados.put(prd.consultarProduto(3), 3);
+
 
         System.out.println(produtosComprados);
-        vendaService.criarVenda("12345678300019", produtosComprados);
+        vendaService.criarVenda("12345678910", produtosComprados);
 
 
     }

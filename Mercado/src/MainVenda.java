@@ -19,7 +19,7 @@ public class MainVenda {
 
 
         System.out.println(produtosComprados);
-        vendaService.criarVenda("12345678910", produtosComprados);
+        vendaService.criarVenda("1234567e8910", produtosComprados);
 
 
     }

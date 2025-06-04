@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static mercado.cliente.Categoria.DESCONTO0;
+
 public class ClienteService {
 
 
@@ -23,7 +25,10 @@ public class ClienteService {
             cadastrarClientePF(cliente);
         } else if (isCnpj(cliente.getDocumento())) {
             cadastrarClientePJ(cliente);
-        } else {
+        }else if (cliente.getDocumento() == null) {
+            cadastrarClienteGenerico(cliente);
+        }
+        else {
             System.out.println("Documento inválido: deve ter 11 (CPF) ou 14 (CNPJ) dígitos.");
         }
     }
@@ -33,6 +38,9 @@ public class ClienteService {
             return consultarClientePF(documento);
         } else if (isCnpj(documento)) {
             return consultarClientePJ(documento);
+        } else if (documento == null) {
+            Cliente clienteGenerico = new Cliente(DESCONTO0,000,"Consumidor_Final",1);
+            return clienteGenerico;
         } else {
             System.out.println("Documento inválido: deve ter 11 (CPF) ou 14 (CNPJ) dígitos.");
         }
@@ -140,6 +148,20 @@ public class ClienteService {
        }
    }
 
+    public void cadastrarClienteGenerico(Cliente cliente) {
+        String sqlCliente = "INSERT INTO cliente (id_cliente, nome, telefone, categoria) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement stmtCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS))
+        {
+            stmtCliente.setInt(1, cliente.getId());
+            stmtCliente.setString(2, cliente.getNome());
+            stmtCliente.setInt(3, cliente.getTelefone());
+            stmtCliente.setString(4, cliente.getCategoria().name());
+            stmtCliente.execute();
+        } catch (SQLException e) {
+            System.err.println("Erro ao cadastrar cliente PF: " + e.getMessage());
+        }
+    }
     
 
 //    @Override

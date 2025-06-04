@@ -1,15 +1,4 @@
-package mercado;
-
-import mercado.cliente.ClienteFisico;
-import mercado.produto.Produto;
-import mercado.produto.ProdutoService;
-import mercado.vendas.VendaService;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static mercado.cliente.Categoria.DESCONTO1;
-import static mercado.cliente.Categoria.DESCONTO2;
+package mercado.Main_Antigo;
 
 public class MainVenda {
     public static void main(String[] args) {

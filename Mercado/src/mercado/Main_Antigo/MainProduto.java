@@ -1,9 +1,4 @@
-package mercado;
-
-import mercado.produto.Produto;
-import mercado.produto.ProdutoService;
-
-import java.util.Arrays;
+package mercado.Main_Antigo;
 
 public class MainProduto {
     public static void main(String[] args) {

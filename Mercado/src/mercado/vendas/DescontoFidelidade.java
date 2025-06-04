@@ -14,7 +14,10 @@ public class DescontoFidelidade {
             return 0.05;
         }else if(cliente.getCategoria() == Categoria.DESCONTO2){
             return 0.10;
-        }else {
+        }else if (cliente.getCategoria() == Categoria.DESCONTO0) {
+            return 0.0;
+        }
+        else {
             return 0.0;
         }
     }

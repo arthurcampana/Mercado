@@ -39,7 +39,7 @@ public class VendaService {
 
         String inserirVenda = "INSERT INTO venda (fk_id_cliente,data_hora,desconto,valor_total) VALUES (?, ?, ?, ?);";
         try (PreparedStatement stmt = conn.prepareStatement(inserirVenda, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1, cli.getId());
+            stmt.setInt(1,cli.getId());
             stmt.setTimestamp(2, Timestamp.valueOf(datahora));
             stmt.setDouble(3, desconto);
             stmt.setDouble(4,0.0);

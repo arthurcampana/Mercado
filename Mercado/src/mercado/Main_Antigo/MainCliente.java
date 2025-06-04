@@ -1,10 +1,4 @@
-package mercado;
-
-import mercado.cliente.*;
-
-import java.util.Arrays;
-
-import static mercado.cliente.Categoria.DESCONTO1;
+package mercado.Main_Antigo;
 
 public class MainCliente {
     public static void main(String[] args) {

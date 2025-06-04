@@ -47,7 +47,7 @@ public class Tabelas {
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS venda (" +
                     "id_venda INT NOT NULL AUTO_INCREMENT PRIMARY KEY , " +
-                    "fk_id_cliente INT, " +
+                    "fk_id_cliente INT DEFAULT 0, " +
                     "data_hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
                     "desconto decimal(10,2) NOT NULL, " +
                     "valor_total double NOT NULL, " +

@@ -1,16 +1,13 @@
 
 import conexao.ConexaoComPropriedades;
 import conexao.Tabelas;
-import mercado.cliente.ClienteFisico;
-import mercado.cliente.ClienteJuridico;
-import mercado.cliente.ClienteService;
+import mercado.cliente.*;
 import mercado.produto.Produto;
 import mercado.produto.ProdutoService;
 
 import java.sql.Connection;
 
-import static mercado.cliente.Categoria.DESCONTO1;
-import static mercado.cliente.Categoria.DESCONTO2;
+import static mercado.cliente.Categoria.*;
 
 public class Main {
 
@@ -43,10 +40,15 @@ public class Main {
 
         ClienteService clt = new ClienteService();
         clt.ManipulacaoBD();
-        ClienteJuridico clientePJ = new ClienteJuridico(DESCONTO2, -1, "aaa", 0, "12345678300019");
+
+        Cliente clienteGenerico = new Cliente(DESCONTO0,000,"Consumidor_Final",0);
+        clt.cadastrarCliente(clienteGenerico);
+
+        ClienteJuridico clientePJ = new ClienteJuridico(DESCONTO2, -1, "aaa", 1, "12345678300019");
         ClienteFisico clientePf = new ClienteFisico(DESCONTO1, 141, "ASD", 2, "12345678910");
         clt.cadastrarCliente(clientePJ);
         clt.cadastrarCliente(clientePf);
+
         System.out.println(clt.consultarCliente("12345678910"));
     }
 }

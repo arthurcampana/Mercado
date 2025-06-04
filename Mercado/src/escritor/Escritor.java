@@ -42,4 +42,35 @@ public class Escritor{
 
 
     }
+
+    public void RelatorioClientes(String nomeArquivo) throws SQLException {
+        String sqlString = "SELECT c.nome, SUM(venda.valor_total) AS total FROM cliente c JOIN venda ON c.id_cliente = venda.fk_id_cliente GROUP BY c.nome ORDER BY total desc;";
+        PreparedStatement stmtRelatorio = conn.prepareStatement(sqlString);
+        ResultSet rs = stmtRelatorio.executeQuery();
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(nomeArquivo))){
+            while (rs.next()){
+                String nome = rs.getString("nome");
+                double total = rs.getDouble("total");
+                writer.printf("Cliente: %s / Total_gasto: %.2f%n",nome,total);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void RelatorioProdutos(String nomeArquivo) throws SQLException {
+        String sqlString = "SELECT p.nome, SUM(p.valor) AS total FROM item_venda p GROUP BY p.nome ORDER BY total desc;";
+        PreparedStatement stmtRelatorio = conn.prepareStatement(sqlString);
+        ResultSet rs = stmtRelatorio.executeQuery();
+        try (PrintWriter writer = new PrintWriter(new FileWriter(nomeArquivo))) {
+            while (rs.next()){
+                String nome = rs.getString("nome");
+                double total = rs.getDouble("total");
+                writer.printf("Produto: %s / Total_vendido: %.2f%n",nome,total);
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -21,15 +21,23 @@ public class Main {
             System.exit(1);
         }
 
+
         ProdutoService prd = new ProdutoService();
         prd.ManipulacaoBD();
         prd.criarTabelaProduto();
-        Produto feijao = new Produto(0,"Feijão", 7.49, 80);
+        Produto feijao = new Produto(1,"Feijão", 7.49, 80);
+
+        ProdutoService prd2 = new ProdutoService();
+        prd.ManipulacaoBD();
+        prd.criarTabelaProduto();
+        Produto arroz = new Produto(2,"Arroz", 6.50, 100);
 
         prd.cadastrarProduto(feijao);
+        prd.cadastrarProduto(arroz);
+        prd.cadastrarProduto(arroz);
         prd.consultarProduto(1);
         prd.excluirProduto(2);
-        prd.atualizar(1, "arroz", 5.33, 10);
+        prd.atualizar(3, "arroz", 5.30, 90);
 
         Tabelas tbl = new Tabelas();
         tbl.criarTabelaCliente();
@@ -41,14 +49,17 @@ public class Main {
         ClienteService clt = new ClienteService();
         clt.ManipulacaoBD();
 
-        Cliente clienteGenerico = new Cliente(DESCONTO0,000,"Consumidor_Final",0);
+        ClienteFisico clienteGenerico = new ClienteFisico(DESCONTO0,000,"Consumidor_Final",0,"00000000000");
         clt.cadastrarCliente(clienteGenerico);
 
-        ClienteJuridico clientePJ = new ClienteJuridico(DESCONTO2, -1, "aaa", 1, "12345678300019");
-        ClienteFisico clientePf = new ClienteFisico(DESCONTO1, 141, "ASD", 2, "12345678910");
+        ClienteJuridico clientePJ = new ClienteJuridico(DESCONTO2, -1, "CLienteCNPJ1", 1, "12345678300019");
+        ClienteFisico clientePf = new ClienteFisico(DESCONTO1, 141, "ClienteCPF1", 2, "12345678910");
+        ClienteFisico clientePf2 = new ClienteFisico(DESCONTO2, 01234, "ClienteCPF2", 3, "99999999999");
         clt.cadastrarCliente(clientePJ);
         clt.cadastrarCliente(clientePf);
+        clt.cadastrarCliente(clientePf2);
 
         System.out.println(clt.consultarCliente("12345678910"));
+        System.out.println(clt.consultarCliente("00000000000"));
     }
 }

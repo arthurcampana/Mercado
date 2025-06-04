@@ -1,18 +1,15 @@
 package Interface;
 
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TelaInicial extends JFrame {
-
+public class RelatorioInterface extends JFrame {
     private JPanel panel;
-    public TelaInicial(){
+    public RelatorioInterface(){
 
-        setTitle("Mercado");
+        setTitle("Relatorios");
         setLayout(new FlowLayout());
 
         this.panel = new JPanel();
@@ -20,12 +17,13 @@ public class TelaInicial extends JFrame {
         this.panel.setPreferredSize(new Dimension(1000,700));
         add(this.panel);
 
-        criarBotao("Produtos", new BotaoCadastrarHandler(),100,200);
-        criarBotao("Relatórios", new BotaoRelatoriosHandler(),100,400);
-        criarBotao("Venda", new BotaoVendaHandler(),100,300);
-        criarBotao("Sair", new BotaoSairHandler(),100,500);
+        criarBotao("Vendas Realizadas", new BotaoGerarVendasHandler(),100,200);
+        criarBotao("Clientes Mais Rentáveis", new BotaoGerarClientesHandler(),100,300);
+        criarBotao("Produtos Mais Rentáveis", new BotaoGerarProdutosHandler(),100,400);
+        criarBotao("Voltar",new BotaoVoltarHandler(),100,500);
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("java-removebg-preview.png"));
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("pinguimjava.png"));
         Image img = icon.getImage().getScaledInstance(500, 300, Image.SCALE_SMOOTH);
         JLabel labelImagem = new JLabel(new ImageIcon(img));
         labelImagem.setBounds(450, 200, 500, 300);
@@ -45,38 +43,41 @@ public class TelaInicial extends JFrame {
 
     }
 
-    private void criarBotao(String label, ActionListener listener,int x,int y){
+    private void criarBotao(String label, ActionListener listener, int x, int y){
         JButton botao = new JButton(label);
         botao.addActionListener(listener);
         botao.setPreferredSize(new Dimension(300,80));
         botao.setBounds(x,y,300,80);
         this.panel.add(botao);
     }
-    private static class BotaoCadastrarHandler implements ActionListener {
+    private static class BotaoGerarClientesHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new Cadastro();
+
         }
     }
-    private static class BotaoRelatoriosHandler implements ActionListener {
+    private static class BotaoGerarVendasHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new RelatorioInterface();
+
         }
     }
 
-    private static class BotaoVendaHandler implements ActionListener {
+    private static class BotaoGerarProdutosHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new VendaInterface();
+
         }
     }
 
-    private static class BotaoSairHandler implements ActionListener {
+    private class BotaoVoltarHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.exit(0);
+            setVisible(false);
         }
     }
+
 
 }
+
+

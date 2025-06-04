@@ -28,7 +28,7 @@ public class MainVenda {
         vendaService.criarVenda("12345678910", produtosComprados2);
         vendaService.criarVenda("99999999999", produtosComprados2);
         vendaService.criarVenda("12345678300019", produtosComprados2);
-        vendaService.criarVenda("00000000000", produtosComprados2);
+        vendaService.criarVenda(null, produtosComprados2);
 
 
 

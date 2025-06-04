@@ -32,9 +32,15 @@ public class Main {
         prd.criarTabelaProduto();
         Produto arroz = new Produto(2,"Arroz", 6.50, 100);
 
+        ProdutoService prd3 = new ProdutoService();
+        prd.ManipulacaoBD();
+        prd.criarTabelaProduto();
+        Produto skol = new Produto(2,"Skol", 5.00, 101);
+
         prd.cadastrarProduto(feijao);
         prd.cadastrarProduto(arroz);
         prd.cadastrarProduto(arroz);
+        prd.cadastrarProduto(skol);
         prd.consultarProduto(1);
         prd.excluirProduto(2);
         prd.atualizar(3, "arroz", 5.30, 90);

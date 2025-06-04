@@ -39,8 +39,6 @@ public class Escritor{
             e.printStackTrace();
         }
 
-
-
     }
 
     public void RelatorioClientes(String nomeArquivo) throws SQLException {

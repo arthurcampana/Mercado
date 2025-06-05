@@ -1,4 +1,4 @@
-Cliente: ClienteCPF1 / Total_gasto: 46,52
-Cliente: Consumidor_Final / Total_gasto: 30,88
-Cliente: CLienteCNPJ1 / Total_gasto: 27,79
-Cliente: ClienteCPF2 / Total_gasto: 27,79
+Cliente: ClienteCPF1 / Total_gasto: 93,04
+Cliente: Consumidor_Final / Total_gasto: 61,76
+Cliente: CLienteCNPJ1 / Total_gasto: 55,58
+Cliente: ClienteCPF2 / Total_gasto: 55,58

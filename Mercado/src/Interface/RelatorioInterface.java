@@ -1,9 +1,12 @@
 package Interface;
 
+import escritor.Escritor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class RelatorioInterface extends JFrame {
     private JPanel panel;
@@ -23,10 +26,10 @@ public class RelatorioInterface extends JFrame {
         criarBotao("Voltar",new BotaoVoltarHandler(),100,500);
 
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("pinguimjava.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("pinguimvingaca.png"));
         Image img = icon.getImage().getScaledInstance(500, 300, Image.SCALE_SMOOTH);
         JLabel labelImagem = new JLabel(new ImageIcon(img));
-        labelImagem.setBounds(450, 200, 500, 300);
+        labelImagem.setBounds(450, 50, 500, 600);
         this.panel.add(labelImagem);
 
 
@@ -35,6 +38,10 @@ public class RelatorioInterface extends JFrame {
         setSize(new Dimension(1000,700));
         setPreferredSize((new Dimension(1000,700)));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+
+        var relatorioClientes = "Relatorio_clientes.txt";
+        var relatorioProdutos = "Relatorio_Produtos.txt";
 
 
 
@@ -53,21 +60,44 @@ public class RelatorioInterface extends JFrame {
     private static class BotaoGerarClientesHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            var relatorioClientes = "Relatorio_clientes.txt";
+            var escritor = new Escritor();
+            escritor.ManipulacaoBD();
+            try {
+                escritor.RelatorioClientes(relatorioClientes);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
     private static class BotaoGerarVendasHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            var relatorioVenda = "Relatorio_venda.txt";
+            var escritor = new Escritor();
+            escritor.ManipulacaoBD();
+            try {
+                escritor.Relatoriovenda(relatorioVenda);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
     private static class BotaoGerarProdutosHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            var relatorioProdutos = "Relatorio_produtos.txt";
+            var escritor = new Escritor();
+            escritor.ManipulacaoBD();
+            try {
+                escritor.RelatorioProdutos(relatorioProdutos);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
+
+
     }
 
     private class BotaoVoltarHandler implements ActionListener {

@@ -55,7 +55,7 @@ public class TelaInicial extends JFrame {
     private static class BotaoCadastrarHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new Cadastro();
+            new ProdutoInterface();
         }
     }
     private static class BotaoRelatoriosHandler implements ActionListener {

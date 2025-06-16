@@ -2,11 +2,13 @@ package Interface;
 
 import mercado.produto.Produto;
 import mercado.produto.ProdutoService;
+import mercado.vendas.VendaService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +20,9 @@ public class VendaInterface extends JFrame {
     private JTextField tfDocumento;
     private Map<Produto, Integer> produtosComprados = new HashMap<>();
     private ProdutoService produtoService;
+    private VendaService vendaService;
 
-    public VendaInterface() {
+    public VendaInterface() throws SQLException {
         setTitle("Venda");
         setLayout(new FlowLayout());
 
@@ -28,12 +31,14 @@ public class VendaInterface extends JFrame {
         this.panel.setPreferredSize(new Dimension(500, 700));
         add(this.panel);
 
-        ProdutoService produtoService = new ProdutoService();
+        vendaService = new VendaService();
+        vendaService.ManipulacaoBD();
+        produtoService = new ProdutoService();
         produtoService.ManipulacaoBD();
 
 
 
-        criarTextFieldIDProduto("Documento");
+        criarTextFieldDocumento("Documento");
         criarTextFieldIDProduto("Código do Produto");
         criarTextFieldQuantidade("Quantidade do Produto");
 
@@ -83,8 +88,16 @@ public class VendaInterface extends JFrame {
         tfQuantidade.setText("");
     }
 
-    private void finalizarVenda() {
+    private void finalizarVenda() throws SQLException {
         JOptionPane.showMessageDialog(null, "Venda finalizada!\nItens:\n" + areaCarrinho.getText());
+        String doc = tfDocumento.getText();
+        if(doc == null) {
+            vendaService.criarVenda(doc,produtosComprados);
+        } else {
+            vendaService.criarVenda(String.valueOf(doc),produtosComprados);
+        }
+
+
 
         areaCarrinho.setText(""); // limpa o carrinho
     }
@@ -134,7 +147,11 @@ public class VendaInterface extends JFrame {
     private class BotaoFinalizarHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            finalizarVenda();
+            try {
+                finalizarVenda();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 

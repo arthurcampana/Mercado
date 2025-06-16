@@ -1,9 +1,14 @@
 package Interface;
 
+import mercado.produto.Produto;
+import mercado.produto.ProdutoService;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VendaInterface extends JFrame {
     private JPanel panel;
@@ -11,6 +16,8 @@ public class VendaInterface extends JFrame {
     private JTextField tfQuantidade;
     private JTextArea areaCarrinho;  // Adicionando a área do carrinho
     private JTextField tfDocumento;
+    private Map<Produto, Integer> produtosComprados = new HashMap<>();
+    private ProdutoService produtoService;
 
     public VendaInterface() {
         setTitle("Venda");
@@ -20,6 +27,11 @@ public class VendaInterface extends JFrame {
         this.panel.setLayout(new FlowLayout());
         this.panel.setPreferredSize(new Dimension(500, 700));
         add(this.panel);
+
+        ProdutoService produtoService = new ProdutoService();
+        produtoService.ManipulacaoBD();
+
+
 
         criarTextFieldIDProduto("Documento");
         criarTextFieldIDProduto("Código do Produto");
@@ -59,8 +71,13 @@ public class VendaInterface extends JFrame {
             return;
         }
 
+        produtosComprados.put(produtoService.consultarProduto(Integer.parseInt(tfIDProduto.getText().trim())),
+                Integer.parseInt(tfQuantidade.getText().trim())
+        );
         String linha = "Produto: " + produto + " | Quantidade: " + quantidade;
         areaCarrinho.append(linha + "\n");
+
+
 
         tfIDProduto.setText("");
         tfQuantidade.setText("");
@@ -68,6 +85,7 @@ public class VendaInterface extends JFrame {
 
     private void finalizarVenda() {
         JOptionPane.showMessageDialog(null, "Venda finalizada!\nItens:\n" + areaCarrinho.getText());
+
         areaCarrinho.setText(""); // limpa o carrinho
     }
 

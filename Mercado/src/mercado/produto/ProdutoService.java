@@ -74,7 +74,7 @@ public class ProdutoService {
 
     }
 
-    public void atualizar(int id, String nome, Double valor, int estoque) {
+    public void atualizarProduto(int id, String nome, Double valor, int estoque) {
         String atualizarSQL = "UPDATE produto SET nome = ?, valor = ?, estoque = ? WHERE id_produto = ?";
         try (PreparedStatement stmt = conn.prepareStatement(atualizarSQL)) {
             stmt.setString(1, nome);

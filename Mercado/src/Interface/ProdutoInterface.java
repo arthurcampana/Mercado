@@ -102,6 +102,11 @@ public class ProdutoInterface extends JFrame {
                 double valor = Double.parseDouble(valorStr);
                 int estoque = Integer.parseInt(estoqueStr);
 
+                if (valor < 0 || estoque < 0) {
+                    JOptionPane.showMessageDialog(null, "O valor e o estoque não podem ser negativos");
+                    return;
+                }
+
                 Produto produto = new Produto(0, nome, valor, estoque);
                 produtoService.cadastrarProduto(produto);
 
@@ -117,35 +122,61 @@ public class ProdutoInterface extends JFrame {
     private class BotaoAtualizarHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String codigo = tfCodigoProduto.getText().trim();
+            String codigoStr = tfCodigoProduto.getText().trim();
             String nome = tfNomeProduto.getText().trim();
-            String valor = tfValorProduto.getText().trim();
-            String estoque = tfEstoqueProduto.getText().trim();
+            String valorStr = tfValorProduto.getText().trim();
+            String estoqueStr = tfEstoqueProduto.getText().trim();
 
-            if (codigo.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Digite o código do produto para atualizar!");
+            if (codigoStr.isEmpty() || nome.isEmpty() || valorStr.isEmpty() || estoqueStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos para atualizar o produto");
                 return;
             }
 
-            // Aqui você atualizaria no banco, se quiser
-            JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso!\n" +
-                    "Código: " + codigo + "\n" +
-                    "Nome: " + nome + "\n" +
-                    "Valor: R$ " + valor + "\n" +
-                    "Estoque: " + estoque + " unidades");
+            try {
+                int codigo = Integer.parseInt(codigoStr);
+                double valor = Double.parseDouble(valorStr);
+                int estoque = Integer.parseInt(estoqueStr);
+
+
+                produtoService.atualizarProduto(codigo, nome, valor, estoque);
+
+                if (valor < 0 || estoque < 0) {
+                    JOptionPane.showMessageDialog(null, "O valor e o estoque não podem ser negativos");
+                    return;
+                }
+
+                JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso\n" +
+                        "Código: " + codigo + "\n" +
+                        "Nome: " + nome + "\n" +
+                        "Valor: R$ " + String.format("%.2f", valor) + "\n" +
+                        "Estoque: " + estoque + " unidades");
+
+                limparCampos();
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Código, valor e estoque devem ser números válidos.");
+            }
         }
     }
+
+
 
     private class BotaoConsultarHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String codigo = tfCodigoProduto.getText().trim();
 
+
             if (codigo.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Digite o código do produto para consultar!");
+                JOptionPane.showMessageDialog(null, "Digite o código do produto para consultar");
             } else {
-                JOptionPane.showMessageDialog(null, "Produto consultado com sucesso!\n" +
+                Produto produto = produtoService.consultarProduto(Integer.parseInt(codigo));
+                JOptionPane.showMessageDialog(null, "Produto consultado com sucesso\n" +
                         "Código: " + codigo + "\n(Neste exemplo, os dados estão fixos)");
+
+                tfEstoqueProduto.setText(String.valueOf(produto.getEstoque()));
+                tfNomeProduto.setText(produto.getNome());
+                tfValorProduto.setText(String.valueOf(produto.getValor()));
             }
         }
     }

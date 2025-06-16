@@ -43,7 +43,7 @@ public class Main {
         prd.cadastrarProduto(skol);
         prd.consultarProduto(1);
         prd.excluirProduto(2);
-        prd.atualizar(3, "arroz", 5.30, 90);
+        prd.atualizarProduto(3, "arroz", 5.30, 90);
 
         Tabelas tbl = new Tabelas();
         tbl.criarTabelaCliente();

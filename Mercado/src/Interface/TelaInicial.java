@@ -33,7 +33,6 @@ public class TelaInicial extends JFrame {
 
 
 
-
         setSize(new Dimension(1000,700));
         setPreferredSize((new Dimension(1000,700)));
         setDefaultCloseOperation(EXIT_ON_CLOSE);

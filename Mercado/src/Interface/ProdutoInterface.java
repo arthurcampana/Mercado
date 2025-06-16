@@ -1,5 +1,8 @@
 package Interface;
 
+import mercado.produto.Produto;
+import mercado.produto.ProdutoService;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +15,8 @@ public class ProdutoInterface extends JFrame {
     private JTextField tfEstoqueProduto;
     private JTextField tfCodigoProduto;
 
+    private ProdutoService produtoService;
+
     public ProdutoInterface() {
         setTitle("Cadastro de Produto");
         setLayout(new FlowLayout());
@@ -20,6 +25,9 @@ public class ProdutoInterface extends JFrame {
         this.panel.setLayout(new FlowLayout());
         this.panel.setPreferredSize(new Dimension(500, 700));
         add(this.panel);
+
+        produtoService = new ProdutoService();
+        produtoService.ManipulacaoBD();
 
         criarTextFieldCodigoProduto("Código do Produto:");
         criarTextFieldNomeProduto("Nome do Produto:");
@@ -81,21 +89,28 @@ public class ProdutoInterface extends JFrame {
     private class BotaoSalvarHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String codigo = tfCodigoProduto.getText().trim();
-            String nome = tfNomeProduto.getText().trim();
-            String valor = tfValorProduto.getText().trim();
-            String estoque = tfEstoqueProduto.getText().trim();
 
-            if (codigo.isEmpty() || nome.isEmpty() || valor.isEmpty() || estoque.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+            String nome = tfNomeProduto.getText().trim();
+            String valorStr = tfValorProduto.getText().trim();
+            String estoqueStr = tfEstoqueProduto.getText().trim();
+
+            if (nome.isEmpty() || valorStr.isEmpty() || estoqueStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos");
                 return;
             }
+            try {
+                double valor = Double.parseDouble(valorStr);
+                int estoque = Integer.parseInt(estoqueStr);
 
-            JOptionPane.showMessageDialog(null, "Produto salvo com sucesso!\n" +
-                    "Código: " + codigo + "\n" +
-                    "Nome: " + nome + "\n" +
-                    "Valor: R$ " + valor + "\n" +
-                    "Estoque: " + estoque + " unidades");
+                Produto produto = new Produto(0, nome, valor, estoque);
+                produtoService.cadastrarProduto(produto);
+
+                JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso");
+
+                limparCampos();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Valor e Estoque devem ser números válidos.");
+            }
         }
     }
 
@@ -140,5 +155,12 @@ public class ProdutoInterface extends JFrame {
         public void actionPerformed(ActionEvent e) {
             setVisible(false);
         }
+    }
+
+    private void limparCampos() {
+        tfCodigoProduto.setText("");
+        tfNomeProduto.setText("");
+        tfValorProduto.setText("");
+        tfEstoqueProduto.setText("");
     }
 }

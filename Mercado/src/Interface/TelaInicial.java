@@ -25,6 +25,8 @@ public class TelaInicial extends JFrame {
         this.panel.setPreferredSize(new Dimension(1000,700));
         add(this.panel);
 
+
+
         criarBotao("Produtos", new BotaoCadastrarHandler(),100,200);
         criarBotao("Relatórios", new BotaoRelatoriosHandler(),100,400);
         criarBotao("Venda", new BotaoVendaHandler(),100,300);

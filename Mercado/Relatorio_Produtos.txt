@@ -1,2 +1,4 @@
-Produto: Feijão / Total_vendido: 74,90
-Produto: arroz / Total_vendido: 53,00
+Produto: Feijão / Total_vendido: 149,80
+Produto: arroz / Total_vendido: 106,00
+Produto: Farofa / Total_vendido: 7,50
+Produto: Cerveja / Total_vendido: 5,00

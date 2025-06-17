@@ -166,17 +166,20 @@ public class ProdutoInterface extends JFrame {
         public void actionPerformed(ActionEvent e) {
             String codigo = tfCodigoProduto.getText().trim();
 
+            try {
+                if (codigo.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Digite o código do produto para consultar");
+                } else {
+                    Produto produto = produtoService.consultarProduto(Integer.parseInt(codigo));
+                    JOptionPane.showMessageDialog(null, "Produto consultado com sucesso\n" +
+                            "Código: " + codigo + "\n(Neste exemplo, os dados estão fixos)");
 
-            if (codigo.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Digite o código do produto para consultar");
-            } else {
-                Produto produto = produtoService.consultarProduto(Integer.parseInt(codigo));
-                JOptionPane.showMessageDialog(null, "Produto consultado com sucesso\n" +
-                        "Código: " + codigo + "\n(Neste exemplo, os dados estão fixos)");
-
-                tfEstoqueProduto.setText(String.valueOf(produto.getEstoque()));
-                tfNomeProduto.setText(produto.getNome());
-                tfValorProduto.setText(String.valueOf(produto.getValor()));
+                    tfEstoqueProduto.setText(String.valueOf(produto.getEstoque()));
+                    tfNomeProduto.setText(produto.getNome());
+                    tfValorProduto.setText(String.valueOf(produto.getValor()));
+                }
+            }catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(null, "Código tem que ser um número válido.");
             }
         }
     }

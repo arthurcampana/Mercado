@@ -76,9 +76,18 @@ public class VendaInterface extends JFrame {
             return;
         }
 
-        produtosComprados.put(produtoService.consultarProduto(Integer.parseInt(tfIDProduto.getText().trim())),
-                Integer.parseInt(tfQuantidade.getText().trim())
-        );
+        try {
+            if (Integer.parseInt(quantidade) <= 0 || Integer.parseInt(produto) <= 0) {
+                JOptionPane.showMessageDialog(null, "O código e a quantidade não podem ser negativos");
+                return;
+            }
+
+            produtosComprados.put(produtoService.consultarProduto(Integer.parseInt(tfIDProduto.getText().trim())),
+                    Integer.parseInt(tfQuantidade.getText().trim())
+            );
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Código e quantidade devem ser números válidos.");
+        }
         String linha = "Produto: " + produto + " | Quantidade: " + quantidade;
         areaCarrinho.append(linha + "\n");
 
@@ -89,12 +98,22 @@ public class VendaInterface extends JFrame {
     }
 
     private void finalizarVenda() throws SQLException {
-        JOptionPane.showMessageDialog(null, "Venda finalizada!\nItens:\n" + areaCarrinho.getText());
+
         String doc = tfDocumento.getText();
-        if(doc == null) {
-            vendaService.criarVenda(doc,produtosComprados);
-        } else {
-            vendaService.criarVenda(String.valueOf(doc),produtosComprados);
+        if(produtosComprados.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Seu carrinho esta vazio");
+            return;
+        }
+        try {
+            if (doc == null) {
+                vendaService.criarVenda(doc, produtosComprados);
+                JOptionPane.showMessageDialog(null, "Venda finalizada!\nItens:\n" + areaCarrinho.getText());
+            } else {
+                vendaService.criarVenda(String.valueOf(doc), produtosComprados);
+                JOptionPane.showMessageDialog(null, "Venda finalizada!\nItens:\n" + areaCarrinho.getText());
+            }
+        }catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "faz direito burrao.");
         }
 
 

@@ -38,7 +38,7 @@ public class ClienteService {
             return consultarClientePF(documento);
         } else if (isCnpj(documento)) {
             return consultarClientePJ(documento);
-        } else if (documento == null) {
+        } else if (documento == null || documento.isEmpty()) {
             Cliente clienteGenerico = new Cliente(DESCONTO0,000,"Consumidor_Final",1);
             return clienteGenerico;
         } else {

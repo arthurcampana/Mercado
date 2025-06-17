@@ -68,34 +68,45 @@ public class VendaInterface extends JFrame {
     }
 
     private void adicionarItemCarrinho() {
-        String produto = tfIDProduto.getText();
-        String quantidade = tfQuantidade.getText();
+        String produtoIdStr = tfIDProduto.getText().trim();
+        String quantidadeStr = tfQuantidade.getText().trim();
 
-        if (produto.isEmpty() || quantidade.isEmpty()) {
+        if (produtoIdStr.isEmpty() || quantidadeStr.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
             return;
         }
 
         try {
-            if (Integer.parseInt(quantidade) <= 0 || Integer.parseInt(produto) <= 0) {
-                JOptionPane.showMessageDialog(null, "O código e a quantidade não podem ser negativos");
+            int produtoId = Integer.parseInt(produtoIdStr);
+            int quantidade = Integer.parseInt(quantidadeStr);
+
+            if (produtoId <= 0 || quantidade <= 0) {
+                JOptionPane.showMessageDialog(null, "O código e a quantidade devem ser maiores que zero.");
                 return;
             }
 
-            produtosComprados.put(produtoService.consultarProduto(Integer.parseInt(tfIDProduto.getText().trim())),
-                    Integer.parseInt(tfQuantidade.getText().trim())
-            );
-        }catch(NumberFormatException ex){
+            Produto produto = produtoService.consultarProduto(produtoId);
+            if (produto == null) {
+                JOptionPane.showMessageDialog(null, "Produto não encontrado.");
+                return;
+            }
+
+            produtosComprados.put(produto, quantidade);
+
+            String linha = "Produto: " + produto.getNome() +
+                    " | Código: " + produto.getId() +
+                    " | Valor: R$ " + String.format("%.2f", produto.getValor()) +
+                    " | Quantidade: " + quantidade;
+            areaCarrinho.append(linha + "\n");
+
+            tfIDProduto.setText("");
+            tfQuantidade.setText("");
+
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Código e quantidade devem ser números válidos.");
         }
-        String linha = "Produto: " + produto + " | Quantidade: " + quantidade;
-        areaCarrinho.append(linha + "\n");
-
-
-
-        tfIDProduto.setText("");
-        tfQuantidade.setText("");
     }
+
 
     private void finalizarVenda() throws SQLException {
 

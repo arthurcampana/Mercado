@@ -171,8 +171,7 @@ public class ProdutoInterface extends JFrame {
                     JOptionPane.showMessageDialog(null, "Digite o código do produto para consultar");
                 } else {
                     Produto produto = produtoService.consultarProduto(Integer.parseInt(codigo));
-                    JOptionPane.showMessageDialog(null, "Produto consultado com sucesso\n" +
-                            "Código: " + codigo + "\n(Neste exemplo, os dados estão fixos)");
+                    JOptionPane.showMessageDialog(null, "Produto consultado com sucesso\n");
 
                     tfEstoqueProduto.setText(String.valueOf(produto.getEstoque()));
                     tfNomeProduto.setText(produto.getNome());

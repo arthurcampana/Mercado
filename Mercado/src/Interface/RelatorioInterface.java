@@ -40,12 +40,6 @@ public class RelatorioInterface extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
-        var relatorioClientes = "Relatorio_clientes.txt";
-        var relatorioProdutos = "Relatorio_Produtos.txt";
-
-
-
-
         setVisible(true);
 
     }

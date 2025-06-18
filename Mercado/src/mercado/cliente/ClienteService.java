@@ -35,19 +35,24 @@ public class ClienteService {
 
     public Cliente consultarCliente(String documento) {
         if (isCpf(documento)) {
+            if(consultarClientePF(documento) == null){
+                return null;
+            }
             return consultarClientePF(documento);
         } else if (isCnpj(documento)) {
+            if(consultarClientePJ(documento) == null){
+                return null;
+            }
             return consultarClientePJ(documento);
         } else if (documento == null || documento.isEmpty()) {
             Cliente clienteGenerico = new Cliente(DESCONTO0,000,"Consumidor_Final",1);
             return clienteGenerico;
         } else {
             System.out.println("Documento inválido: deve ter 11 (CPF) ou 14 (CNPJ) dígitos.");
+            return null;
         }
-        return null;
 
     }
-
 
 
     public Cliente consultarClientePF(String documento) {

@@ -1,5 +1,6 @@
 package Interface;
 
+import mercado.cliente.ClienteService;
 import mercado.produto.Produto;
 import mercado.produto.ProdutoService;
 import mercado.vendas.VendaService;
@@ -21,6 +22,7 @@ public class VendaInterface extends JFrame {
     private Map<Produto, Integer> produtosComprados = new HashMap<>();
     private ProdutoService produtoService;
     private VendaService vendaService;
+    private ClienteService clienteService;
 
     public VendaInterface() throws SQLException {
         setTitle("Venda");
@@ -35,6 +37,8 @@ public class VendaInterface extends JFrame {
         vendaService.ManipulacaoBD();
         produtoService = new ProdutoService();
         produtoService.ManipulacaoBD();
+        clienteService = new ClienteService();
+        clienteService.ManipulacaoBD();
 
 
 
@@ -115,16 +119,25 @@ public class VendaInterface extends JFrame {
             JOptionPane.showMessageDialog(null, "Seu carrinho esta vazio");
             return;
         }
+
+
         try {
-            if (doc == null) {
+            if (clienteService.consultarCliente(doc) == null) {
+                JOptionPane.showMessageDialog(null, "Cliente não encontrado.");
+            }
+            if (doc.isEmpty()) {
                 vendaService.criarVenda(doc, produtosComprados);
                 JOptionPane.showMessageDialog(null, "Venda finalizada!\nItens:\n" + areaCarrinho.getText());
-            } else {
-                vendaService.criarVenda(String.valueOf(doc), produtosComprados);
+            } else{
+                if(doc.length() != 11 && doc.length() != 14){
+                    JOptionPane.showMessageDialog(null, "Documento inválido: deve ter 11 (CPF) ou 14 (CNPJ) dígitos, Ou o campo deve continuar vazio.");
+                    return;
+                }
+                vendaService.criarVenda(doc, produtosComprados);
                 JOptionPane.showMessageDialog(null, "Venda finalizada!\nItens:\n" + areaCarrinho.getText());
             }
-        }catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "faz direito burrao.");
+        }catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Digite novamente.");
         }
 
 

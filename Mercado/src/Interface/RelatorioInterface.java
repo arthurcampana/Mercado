@@ -65,6 +65,7 @@ public class RelatorioInterface extends JFrame {
             escritor.ManipulacaoBD();
             try {
                 escritor.RelatorioClientes(relatorioClientes);
+                JOptionPane.showMessageDialog(null, "Relatorio gerado com sucesso.");
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -78,6 +79,7 @@ public class RelatorioInterface extends JFrame {
             escritor.ManipulacaoBD();
             try {
                 escritor.Relatoriovenda(relatorioVenda);
+                JOptionPane.showMessageDialog(null, "Relatorio gerado com sucesso.");
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -92,6 +94,7 @@ public class RelatorioInterface extends JFrame {
             escritor.ManipulacaoBD();
             try {
                 escritor.RelatorioProdutos(relatorioProdutos);
+                JOptionPane.showMessageDialog(null, "Relatorio gerado com sucesso.");
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }

@@ -1,3 +1,3 @@
 Produto: Feijão / Total_vendido: 37,45
 Produto: arroz / Total_vendido: 31,80
-Produto: Feijãoo / Total_vendido: -7,49
+Produto: Feijãoo / Total_vendido: 22,47

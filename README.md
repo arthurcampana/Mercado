@@ -1,7 +1,5 @@
 # Mercado_poo_senai_s2
 
-https://media.tenor.com/Fi3EqKfhbmEAAAAe/sonic-rizz.png
-
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.

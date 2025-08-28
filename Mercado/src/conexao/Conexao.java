@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexao {
-    private static final String url = "jdbc:mysql://localhost:3306/mercado";
-    private static final String usuario = "root";
-    private static final String senha = "senai";
+    private static final String url = "";
+    private static final String usuario = "";
+    private static final String senha = "";
 
     public static Connection getConnection() {
         Connection conn = null;
